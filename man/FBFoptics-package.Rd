@@ -3,26 +3,26 @@
 \alias{FBFoptics}
 \docType{package}
 \title{
-What the package does (short line)
+4x4 Optics Calculations
 }
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+Package to calculate reflectivity and other parameters from Surface Plasmon Resonance (SPR) and Evanescent Wave Ellipsometry experiments in a prism configuration
 }
 \details{
 \tabular{ll}{
 Package: \tab FBFoptics\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
+Version: \tab 0.1\cr
 Date: \tab 2013-07-15\cr
-License: \tab What license is it under?\cr
+License: \tab GPLv3\cr
 }
-~~ An overview of how to use the package, including the most important functions ~~
+Prepare a base object that describes the experimental configuration
+
 }
 \author{
-Who wrote it
+Jonathan Bramble, School of Physics and Astronomy, University of Leeds
 
-Maintainer: Who to complain to <yourfault@somewhere.net>
+Maintainer: Jonathan Bramble <j.p.bramble@leeds.ac.uk>
 }
 \references{
 ~~ Literature or other references for background information ~~

@@ -1,0 +1,2 @@
+useDynLib(FBFoptics)
+exportPattern("^[[:alpha:]]+")

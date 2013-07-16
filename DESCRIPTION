@@ -1,0 +1,11 @@
+Package: FBFoptics
+Type: Package
+Title: 4x4 Optics
+Version: 0.1
+Date: 2013-07-15
+Author: Jonathan Bramble
+Maintainer: j.p.bramble@leeds.ac.uk
+Description: Package to calculate reflectivity and other parameters from Surface Plasmon Resonance (SPR) and Evanescent Wave Ellipsometry experiments in a prism configuration
+License: GPLv3
+Depends: Rcpp (>= 0.10.4)
+LinkingTo: Rcpp

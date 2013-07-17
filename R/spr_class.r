@@ -11,7 +11,7 @@ setClass("SPR",
            end_angle="numeric",
            layers = "list"
            ),
-         prototype(points=100,lambda=633e-9,n_entry=1.85,n_exit=1.33,start_angle=10,end_angle=90)
+         prototype(points=1000,lambda=633e-9,n_entry=1.85,n_exit=1.33,start_angle=10,end_angle=90)
 )
 
 validitySPR <- function(object){
@@ -26,7 +26,6 @@ setGeneric("run", function(object) {
 })
 
 setMethod("run",signature(object="SPR"),function(object){
-  
   Rpp<-S4spr(object)
   int_angle <- seq(length=object@points,from=object@start_angle,to=object@end_angle)
   dat <- cbind(int_angle,Rpp)

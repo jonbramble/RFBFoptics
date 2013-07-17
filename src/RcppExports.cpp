@@ -5,21 +5,15 @@
 
 using namespace Rcpp;
 
-// spr
-Rcpp::NumericVector spr(int N, double lambda, double n_entry, double n_exit, double start_angle, double end_angle, Rcpp::List layers);
-RcppExport SEXP FBFoptics_spr(SEXP NSEXP, SEXP lambdaSEXP, SEXP n_entrySEXP, SEXP n_exitSEXP, SEXP start_angleSEXP, SEXP end_angleSEXP, SEXP layersSEXP) {
+// S4spr
+Rcpp::NumericVector S4spr(Rcpp::S4 fullstack);
+RcppExport SEXP FBFoptics_S4spr(SEXP fullstackSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
-        int N = Rcpp::as<int >(NSEXP);
-        double lambda = Rcpp::as<double >(lambdaSEXP);
-        double n_entry = Rcpp::as<double >(n_entrySEXP);
-        double n_exit = Rcpp::as<double >(n_exitSEXP);
-        double start_angle = Rcpp::as<double >(start_angleSEXP);
-        double end_angle = Rcpp::as<double >(end_angleSEXP);
-        Rcpp::List layers = Rcpp::as<Rcpp::List >(layersSEXP);
-        Rcpp::NumericVector __result = spr(N, lambda, n_entry, n_exit, start_angle, end_angle, layers);
+        Rcpp::S4 fullstack = Rcpp::as<Rcpp::S4 >(fullstackSEXP);
+        Rcpp::NumericVector __result = S4spr(fullstack);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

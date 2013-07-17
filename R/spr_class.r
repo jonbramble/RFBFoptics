@@ -26,7 +26,8 @@ setGeneric("run", function(object) {
 })
 
 setMethod("run",signature(object="SPR"),function(object){
-  Rpp <-spr(object@points,object@lambda,object@n_entry,object@n_exit,object@start_angle,object@end_angle,object@layers)
+  
+  Rpp<-S4spr(object)
   int_angle <- seq(length=object@points,from=object@start_angle,to=object@end_angle)
   dat <- cbind(int_angle,Rpp)
   return(dat)

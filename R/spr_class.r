@@ -28,7 +28,7 @@ setClass("SPR",
            end_angle="numeric",
            layers = "list"
            ),
-         prototype(points=1000,lambda=633e-9,n_entry=1.85,n_exit=1.33,start_angle=10,end_angle=90)
+         prototype(points=1000,lambda=633e-9,n_entry=1.85,n_exit=1.33,start_angle=45,end_angle=60)
 )
 
 validitySPR <- function(object){

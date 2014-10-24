@@ -72,6 +72,7 @@ Rcpp::NumericVector S4spr(Rcpp::S4 fullstack){
 	spr_simulation->setlambda(lambda);
 
 	spr_simulation->run();  //more error handling required probabily
+  //spr_simulation->run_parallel();  //more error handling required probabily
 	spr_simulation->getdata(result);
     
   delete spr_simulation;  

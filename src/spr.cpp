@@ -45,11 +45,6 @@ void Spr::getdata(boost::numeric::ublas::vector<double>& ret_data){
 	ret_data=data;
 }
 
-//A threaded version of run
-void Spr::run_parallel(){
-  
-}
-
 //this should find the spr minimum
 void Spr::sprmin(){
   
@@ -101,4 +96,10 @@ void Spr::run()
 
 		data(k) = rpp(T);    // need to choose data rpp rps etc
 	}
+}
+
+//A threaded version of run
+void Spr::run_parallel(){
+  //boost::thread t(run);
+  //t.join();
 }

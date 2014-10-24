@@ -15,9 +15,16 @@
 # You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-  
-## Define the SPR class ##
 
+#' An S4 class to represent a SPR experiment.
+#'
+#' @slot points The number of data points
+#' @slot lambda Wavelength of light
+#' @slot n_entry Refractive index of the entry medium, eg a Prism
+#' @slot n_exit Refractive index of the exit medium
+#' @slot start_angle Exterior starting angle in degrees
+#' @slot end_angle Exterior ending angle in degrees
+#' 
 SPR <- setClass("SPR", 
          representation(
            points="numeric",

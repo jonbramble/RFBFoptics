@@ -11,11 +11,8 @@ sam <- Layer(type="isotropic",d=2e-9,eps=2.1+0i)
 
 #add up those layers
 l <- s+au+sam
-ptm <- proc.time()
-x<-run(l)
-tm <- proc.time() - ptm
-tm
-plot(x[,1],x[,2],type="l")
+run(l)
+
 
 
 

@@ -18,7 +18,6 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 
 
 #include "spr.hpp"
-#include <boost/math/complex/asin.hpp>
 
 Spr::Spr(){
 	data = boost::numeric::ublas::vector<double>(100);
@@ -46,9 +45,19 @@ void Spr::getdata(boost::numeric::ublas::vector<double>& ret_data){
 	ret_data=data;
 }
 
+//A threaded version of run
+void Spr::run_parallel(){
+  
+}
+
+//this should find the spr minimum
+void Spr::sprmin(){
+  
+}
+
 void Spr::run()
 {
-	//make tests
+	//make tests - need a argument testing package
 	static const double s_pi = static_cast<double>(3.141592653589793238462643383279502884197L);
 
 	matrix<complex<double> > T(4,4), ILa(4,4), Lf(4,4), Tli(4,4);

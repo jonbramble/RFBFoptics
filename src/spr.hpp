@@ -18,6 +18,8 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 #ifndef SPR_H
 #define SPR_H
 
+#include <boost/math/complex/asin.hpp>
+
 #include "fbfoptics.hpp"
 #include "layer.hpp"
 
@@ -36,6 +38,8 @@ class Spr: public Fbfoptics {
 	void setlambda(double _lambda);
 	
 	void run();
+  void run_parallel();
+  void sprmin();
 	void getdata(boost::numeric::ublas::vector<double>& ret_data);
 	
 	private:

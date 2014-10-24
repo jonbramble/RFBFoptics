@@ -4,8 +4,11 @@ Title: 4x4 Optics Calculations
 Version: 0.1
 Date: 2013-07-15
 Author: Jonathan Bramble
-Maintainer: Jonathan Bramble <j.p.bramble@leeds.ac.uk>
-Description: Package to calculate reflectivity and other parameters from Surface Plasmon Resonance (SPR) and Evanescent Wave Ellipsometry experiments in a prism configuration
-License: GPLv3
-Depends: Rcpp (>= 0.10.4)
+Maintainer: Jonathan Bramble <jonathan.bramble@nottingham.ac.uk>
+Description: Package to calculate reflectivity and other parameters from
+    Surface Plasmon Resonance (SPR) and Evanescent Wave Ellipsometry
+    experiments in a prism configuration
+License: GPL-3
+Depends:
+    Rcpp (>= 0.10.4)
 LinkingTo: Rcpp

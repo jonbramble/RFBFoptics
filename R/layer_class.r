@@ -1,4 +1,4 @@
-setClass("Layer", 
+Layer <- setClass("Layer", 
          representation(
            type="character",
            d="numeric",

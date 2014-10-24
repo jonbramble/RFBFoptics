@@ -27,6 +27,10 @@ Fbfoptics::~Fbfoptics(){
 
 }
 
+// Construct the entrance matrix
+// na refractive index of the ambient
+// cphia cosine of the entrance angle
+// ILa the reference to the entrance matrix
 void Fbfoptics::incmat(const double na, const double cphia, matrix<complex<double> >& ILa){
 	ILa(0,0) = complex<double>(0,0);
 	ILa(0,1) = complex<double>(0,0);
@@ -49,6 +53,10 @@ void Fbfoptics::incmat(const double na, const double cphia, matrix<complex<doubl
 	ILa(3,3) = complex<double>(0,0);
 }
 
+// Construct the exit matrix
+// na refractive index of the exit media, must be real
+// cphia cosine of the exit angle
+// Lf the reference to the exit matrix
 void Fbfoptics::extmat(const double nf, const complex<double> cphif, matrix<complex<double> >& Lf)
 {
 	complex<double> znf= complex<double>(nf,0.0);
@@ -74,6 +82,9 @@ void Fbfoptics::extmat(const double nf, const complex<double> cphif, matrix<comp
 	Lf(3,2) = complex<double>(0,0);
 	Lf(3,3) = complex<double>(0,0);
 }
+
+//Calculate the dielectric tensor representation for the layer
+//eav 
 
 void Fbfoptics::dietens(double eav, double dem, double S, double stheta, double ctheta, double sphi, double cphi, matrix<double>& ep)
 {
@@ -110,6 +121,7 @@ void Fbfoptics::dietens(double eav, double dem, double S, double stheta, double 
 	ep = prod(ea,inverse);
 }
 
+//Calculate the general transfer matrix for isotropic materials
 void Fbfoptics::gtmiso(const complex<double> eiso, const double k0, const double eta, const double diso, matrix<complex<double> >& Tiso)
 {
 	double eta2 = pow(eta,2);
@@ -155,6 +167,7 @@ void Fbfoptics::gtmiso(const complex<double> eiso, const double k0, const double
 	Tiso = T;
 }
 
+//Calculate the differential propagation matrix
 void Fbfoptics::diffpropmat(const matrix<double> ep, const double eta, matrix<double>& Delta)
 {
 	double zb[10];
@@ -190,6 +203,7 @@ void Fbfoptics::diffpropmat(const matrix<double> ep, const double eta, matrix<do
 	Delta(3,3)=0;
 }
 
+//Calculate the p-polarised reflectivity
 double Fbfoptics::rpp(const matrix<complex<double> >& M)
 {
 	complex<double> zr;
@@ -198,6 +212,9 @@ double Fbfoptics::rpp(const matrix<complex<double> >& M)
 	return r;
 }
 
+//TODO: Add all the other reflectivities and transmissions
+
+//Calculate the general transfer matrix
 void Fbfoptics::gtm(const matrix<double>& Delta, const double k0, const double h, matrix<complex<double> >& T)
 {
 	matrix<complex<double> > Tw = Delta;
@@ -205,8 +222,20 @@ void Fbfoptics::gtm(const matrix<double>& Delta, const double k0, const double h
         	for (unsigned j = 0; j < 4; ++ j)
             		Tw(i,j)=complex<double>(0,-h*k0*Delta(i,j));
 	T = expm_pad(Tw); 
+  
 }
 
+void Fbfoptics::gtm_eig(const matrix<double>& Delta, const double k0, const double h, matrix<complex<double> >& T){
+  //here we need an eigenvalue solution for the matrix exponential becuase this contains physically relavent information
+  matrix<complex<double> > Tw = Delta;
+  for (unsigned i = 0; i < 4; ++ i)
+        	for (unsigned j = 0; j < 4; ++ j)
+            		Tw(i,j)=complex<double>(0,-h*k0*Delta(i,j));
+                
+  T = expm_pad(Tw); // change this to eigs method
+}
+
+//Calculate the total transfer matrix
 void Fbfoptics::total_trans(std::vector<matrix<complex<double> > > prod_seq, matrix<complex<double> >& T)
 {
 	std::vector<boost::numeric::ublas::matrix<complex<double> > >::reverse_iterator mat_it;

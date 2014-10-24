@@ -18,7 +18,7 @@
   
 ## Define the SPR class ##
 
-setClass("SPR", 
+SPR <- setClass("SPR", 
          representation(
            points="numeric",
            lambda="numeric",

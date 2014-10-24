@@ -91,6 +91,5 @@ void Spr::run()
 		prod_seq.clear();
 
 		data(k) = rpp(T);    // need to choose data rpp rps etc
-		//std::cout << phia << "	" << rpp(T) << std::endl;
 	}
 }

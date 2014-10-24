@@ -12,7 +12,7 @@ BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
-        Rcpp::S4 fullstack = Rcpp::as<Rcpp::S4 >(fullstackSEXP);
+        Rcpp::traits::input_parameter< Rcpp::S4 >::type fullstack(fullstackSEXP );
         Rcpp::NumericVector __result = S4spr(fullstack);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }

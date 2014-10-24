@@ -59,6 +59,8 @@ protected:
 	void gtmiso(const complex<double>,const double,const double,const double, matrix<complex<double> >&);
 	/// The general transfer matrix for anisotropic layers
 	void gtm(const matrix<double>& Delta, const double k0, const double h, matrix<complex<double> >& T);
+  /// The general transfer matrix for anisotropic layers with eigenvector method
+  void gtm_eig(const matrix<double>& Delta, const double k0, const double h, matrix<complex<double> >& T);
 	/// The differential propagation matrix Delta
 	void diffpropmat(const matrix<double> ep, const double eta, matrix<double>& Delta);
 	/// Calculates from the total transfer matrix the rpp reflectivity co-efficient

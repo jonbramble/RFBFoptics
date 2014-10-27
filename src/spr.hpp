@@ -37,18 +37,19 @@ class Spr: public Fbfoptics {
 	void setlayers(std::vector<Layer> _layers);
 	void setlambda(double _lambda);
 	
-	void run();
-  void run_parallel();
+  void run();
   void sprmin();
+  double rpp_phia(double phia);
+  void rpp_array();
 	void getdata(boost::numeric::ublas::vector<double>& ret_data);
 	
 	private:
-		// layer class? good plan
+
 	void setnpts(double _N);
 	double na, nf,sangle, endangle, lambda;
 	int N, size;
 
-	boost::numeric::ublas::vector<double> data; // how can i pass the ref to the 'main' data allocation?
+	boost::numeric::ublas::vector<double> data;
 	std::vector<Layer> vlayers;
 	std::vector<Layer>::iterator iso_it;
 	std::vector<boost::numeric::ublas::matrix<complex<double> > > prod_seq;

@@ -27,10 +27,9 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 #include <boost/numeric/ublas/triangular.hpp>
 #include <boost/numeric/ublas/lu.hpp>
 
-#include <boost/thread/thread.hpp>
-
 #include <complex>
 #include <algorithm>
+#include <thread>
 #include "complex_methods.hpp"
 #include "expm.hpp"
 

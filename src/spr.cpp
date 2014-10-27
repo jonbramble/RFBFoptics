@@ -47,12 +47,77 @@ void Spr::getdata(boost::numeric::ublas::vector<double>& ret_data){
 
 //this should find the spr minimum
 void Spr::sprmin(){
-  
+  // calculate the critical angle and see if we are beyond it
+  // is there an algorithm for this
 }
 
-void Spr::run()
+void Spr::rpp_array(){ 
+  static const double s_pi = static_cast<double>(3.141592653589793238462643383279502884197L);
+  
+  double end_angle_rad = endangle*(s_pi/180);
+  double start_angle_rad = sangle*(s_pi/180);
+	double range_rad = end_angle_rad-start_angle_rad;
+  
+  double phia, result;
+  int k;
+  
+  for(k=0;k<N;k++)
+  {
+    phia = start_angle_rad+k*(range_rad/N); //input angle
+    result = Spr::rpp_phia(phia);
+    data(k) = result;
+  }
+}
+
+double Spr::rpp_phia(double phia){
+  
+  static const double s_pi = static_cast<double>(3.141592653589793238462643383279502884197L);
+
+	matrix<complex<double> > T(4,4), ILa(4,4), Lf(4,4), Tli(4,4);
+	identity_matrix<complex<double> > Id(4,4);
+
+	complex<double>	result, zcphif2, phif, cphif;
+
+	double cphia, eta;
+	double k0 = (2*s_pi)/lambda; // laser wavevector
+		
+	cphia = cos(phia); 
+	eta = na*sin(phia); // x comp of wavevector
+	zcphif2 = complex<double>(1-pow((na/nf)*sin(phia),2),0);  // this always picks the correct sector
+	cphif = sqrt(zcphif2);
+		
+	incmat(na,cphia,ILa);
+	extmat(nf,cphif,Lf);
+		
+	prod_seq.push_back(ILa); 
+  
+  //iterate over elements
+	for ( iso_it=vlayers.begin() ; iso_it<vlayers.end(); iso_it++ ){
+			eps = iso_it->geteps();
+			d = iso_it->getd();
+			gtmiso(eps,k0,eta,-1*d,Tli);
+			prod_seq.push_back(Tli);
+	}
+	prod_seq.push_back(Lf); //add exit matrix at end
+
+	total_trans(prod_seq, T);
+	
+	prod_seq.clear();
+
+	return rpp(T);    // need to choose data rpp rps etc
+}
+
+
+void Spr::run(){
+  //std::thread t(&Spr::rpp_array,this);
+  //t.join();  
+  rpp_array();
+}
+
+
+/*void Spr::old_run()
 {
-	//make tests - need a argument testing package
+  //make tests
 	static const double s_pi = static_cast<double>(3.141592653589793238462643383279502884197L);
 
 	matrix<complex<double> > T(4,4), ILa(4,4), Lf(4,4), Tli(4,4);
@@ -96,10 +161,4 @@ void Spr::run()
 
 		data(k) = rpp(T);    // need to choose data rpp rps etc
 	}
-}
-
-//A threaded version of run
-void Spr::run_parallel(){
-  //boost::thread t(run);
-  //t.join();
-}
+}*/

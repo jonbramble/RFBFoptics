@@ -7,11 +7,14 @@ s@points = 1000
 
 #create some layers
 au <- Layer(type="isotropic",d=49e-9,eps=-11+1.01i)
-sam <- Layer(type="isotropic",d=2e-9,eps=2.1+0i)
+sam <- Layer(type="isotropic",d=3e-9,eps=2.1+0i)
 
 #add up those layers
 l <- s+au+sam
-run(l)
+ptm <- proc.time()
+x <- run(l)
+proc.time() - ptm
+plot(x[,1],x[,2],type="l",xlab="Angle",ylab="rpp")
 
 
 

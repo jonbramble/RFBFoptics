@@ -54,18 +54,46 @@ void Spr::sprmin(){
 void Spr::rpp_array(){ 
   static const double s_pi = static_cast<double>(3.141592653589793238462643383279502884197L);
   
-  double end_angle_rad = endangle*(s_pi/180);
-  double start_angle_rad = sangle*(s_pi/180);
-	double range_rad = end_angle_rad-start_angle_rad;
+  end_angle_rad = endangle*(s_pi/180);
+  start_angle_rad = sangle*(s_pi/180);
+	range_rad = end_angle_rad-start_angle_rad;
   
-  double phia, result;
-  int k;
+  int cores = std::thread::hardware_concurrency();
+  //int cores = 1;
+  std::vector<std::thread> threads;
   
-  for(k=0;k<N;k++)
+  int parts = N / cores;
+  int extra = N % cores;
+  int start, end;
+
+  //std::cout << "cores " << cores << std::endl;
+  //std::cout << "parts " << parts << std::endl;
+  //std::cout << "extra " << extra << std::endl;
+
+  for (int i=0; i<cores; ++i) // 1 per core:
   {
+    start = i*parts;
+    end = (i+1)*parts;
+    if(i==cores-1)
+    	end += extra;
+    threads.push_back( std::thread(&Spr::rpp_segments, this, start, end) );
+  }
+
+  for (std::thread& t : threads) // new range-based for:
+   t.join(); // runs those threads
+}
+
+void Spr::rpp_segments(int start, int end){
+  int k;
+  double phia, result;
+  for(k=start;k<end;k++){
+   
     phia = start_angle_rad+k*(range_rad/N); //input angle
+     
     result = Spr::rpp_phia(phia);
+    mu.lock();
     data(k) = result;
+    mu.unlock();
   }
 }
 
@@ -109,8 +137,6 @@ double Spr::rpp_phia(double phia){
 
 
 void Spr::run(){
-  //std::thread t(&Spr::rpp_array,this);
-  //t.join();  
   rpp_array();
 }
 

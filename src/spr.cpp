@@ -65,10 +65,6 @@ void Spr::rpp_array(){
   int extra = N % cores;
   int start, end;
 
-  std::cout << "cores " << cores << std::endl;
-  std::cout << "parts " << parts << std::endl;
-  std::cout << "extra " << extra << std::endl;
-
   for (int i=0; i<cores; ++i) // 1 per core:
   {
     start = i*parts;

@@ -41,9 +41,9 @@ class Spr: public Fbfoptics {
 	
   void run();
   void sprmin();
-  double rpp_phia(double phia);
+  
   void rpp_array();
-  void rpp_segments(int, int);
+  
 	void getdata(boost::numeric::ublas::vector<double>& ret_data);
 	
 	private:
@@ -53,10 +53,12 @@ class Spr: public Fbfoptics {
   
 	int N, size;
   std::mutex mu;
+  
+  void rpp_segments(int, int);
+  double rpp_phia(double phia);
 
 	boost::numeric::ublas::vector<double> data;
 	std::vector<Layer> vlayers;
-	std::vector<Layer>::iterator iso_it;
 
 };
 

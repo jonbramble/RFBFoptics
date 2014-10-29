@@ -59,7 +59,6 @@ void Spr::rpp_array(){
 	range_rad = end_angle_rad-start_angle_rad;
   
   int cores = std::thread::hardware_concurrency();
-  //int cores = 1;
   std::vector<std::thread> threads;
   
   int parts = N / cores;
@@ -102,6 +101,7 @@ double Spr::rpp_phia(double phia){
 	matrix<complex<double> > T(4,4), ILa(4,4), Lf(4,4), Tli(4,4);
 	identity_matrix<complex<double> > Id(4,4);
   std::vector<boost::numeric::ublas::matrix<complex<double> > > prod_seq;
+  std::vector<Layer>::iterator iso_it;
 
 	complex<double>	result, zcphif2, phif, cphif, eps;
 

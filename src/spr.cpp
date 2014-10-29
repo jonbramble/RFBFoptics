@@ -66,9 +66,9 @@ void Spr::rpp_array(){
   int extra = N % cores;
   int start, end;
 
-  //std::cout << "cores " << cores << std::endl;
-  //std::cout << "parts " << parts << std::endl;
-  //std::cout << "extra " << extra << std::endl;
+  std::cout << "cores " << cores << std::endl;
+  std::cout << "parts " << parts << std::endl;
+  std::cout << "extra " << extra << std::endl;
 
   for (int i=0; i<cores; ++i) // 1 per core:
   {
@@ -84,15 +84,13 @@ void Spr::rpp_array(){
 }
 
 void Spr::rpp_segments(int start, int end){
-  int k;
+  int k; 
   double phia, result;
   for(k=start;k<end;k++){
-   
     phia = start_angle_rad+k*(range_rad/N); //input angle
-     
     result = Spr::rpp_phia(phia);
-    mu.lock();
-    data(k) = result;
+    mu.lock(); // lock here for writing to data
+     data(k) = result;
     mu.unlock();
   }
 }
@@ -103,12 +101,13 @@ double Spr::rpp_phia(double phia){
 
 	matrix<complex<double> > T(4,4), ILa(4,4), Lf(4,4), Tli(4,4);
 	identity_matrix<complex<double> > Id(4,4);
+  std::vector<boost::numeric::ublas::matrix<complex<double> > > prod_seq;
 
-	complex<double>	result, zcphif2, phif, cphif;
+	complex<double>	result, zcphif2, phif, cphif, eps;
 
-	double cphia, eta;
+	double cphia, eta, d;
 	double k0 = (2*s_pi)/lambda; // laser wavevector
-		
+	
 	cphia = cos(phia); 
 	eta = na*sin(phia); // x comp of wavevector
 	zcphif2 = complex<double>(1-pow((na/nf)*sin(phia),2),0);  // this always picks the correct sector
@@ -140,6 +139,12 @@ void Spr::run(){
   rpp_array();
 }
 
+
+    //mu.lock(); // lock here for writing to data
+    //std::cout << " thread "<< std::this_thread::get_id() << std::endl;
+    //
+    //mu.unlock();
+    //std::cout << " phia "<< phia << std::endl; 
 
 /*void Spr::old_run()
 {

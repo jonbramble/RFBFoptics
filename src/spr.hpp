@@ -57,12 +57,6 @@ class Spr: public Fbfoptics {
 	boost::numeric::ublas::vector<double> data;
 	std::vector<Layer> vlayers;
 	std::vector<Layer>::iterator iso_it;
-	std::vector<boost::numeric::ublas::matrix<complex<double> > > prod_seq;
-	
-	complex<double> eps;
-	double d;
-		
-		
 
 };
 

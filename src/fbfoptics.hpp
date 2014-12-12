@@ -32,6 +32,8 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 #include <thread>
 #include "complex_methods.hpp"
 #include "expm.hpp"
+#include "expm_eigen.hpp"
+
 
 using namespace boost::numeric::ublas;
 using namespace std;

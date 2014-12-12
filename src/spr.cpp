@@ -58,6 +58,7 @@ void Spr::rpp_array(){
   start_angle_rad = sangle*(s_pi/180);
 	range_rad = end_angle_rad-start_angle_rad;
   
+  //parallel processing part
   int cores = std::thread::hardware_concurrency();
   std::vector<std::thread> threads;
   
@@ -95,10 +96,10 @@ double Spr::rpp_phia(double phia){
   static const double s_pi = static_cast<double>(3.141592653589793238462643383279502884197L);
 
 	matrix<complex<double> > T(4,4), ILa(4,4), Lf(4,4), Tli(4,4);
+  matrix<double> ep(4,4), Delta(4,4);
 	identity_matrix<complex<double> > Id(4,4);
   std::vector<boost::numeric::ublas::matrix<complex<double> > > prod_seq;
-  std::vector<Layer>::iterator iso_it;
-
+  
 	complex<double>	result, zcphif2, phif, cphif, eps;
 
 	double cphia, eta, d;
@@ -114,17 +115,24 @@ double Spr::rpp_phia(double phia){
 		
 	prod_seq.push_back(ILa); 
   
-  //iterate over elements
-	for ( iso_it=vlayers.begin() ; iso_it<vlayers.end(); iso_it++ ){
-			eps = iso_it->geteps();
-			d = iso_it->getd();
-			gtmiso(eps,k0,eta,-1*d,Tli);
+  //iterate over physical layers
+	for(Layer& v : vlayers){
+      eps = v.geteps();
+  		d = v.getd();
+      if(v.getiso()==true){
+        gtmiso(eps,k0,eta,-1*d,Tli);
+      }
+      //else     //anisotropic only
+      //{
+      //  dietens(eps, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, ep);
+      //  diffpropmat(ep, eta, Delta);     //anisotropic only
+      //  gtm(Delta,eta,k0,d,Tli);
+      //}  
 			prod_seq.push_back(Tli);
 	}
+  
 	prod_seq.push_back(Lf); //add exit matrix at end
-
 	total_trans(prod_seq, T);
-	
 	prod_seq.clear();
 
 	return rpp(T);    // need to choose data rpp rps etc

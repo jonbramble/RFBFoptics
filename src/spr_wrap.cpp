@@ -23,6 +23,8 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 void convert_layer(std::vector<Layer>&vlayers, Rcpp::List layers, int layer_count){
   Layer a_layer;
   double layer_d;
+  Rcpp::CharacterVector is_iso;
+  //Rcpp::CharacterVector iso("isotropic");
   //complex<double> layer_eps;
   //convert to layers    //could I use std::transform need iterators
   for(int i=0;i<layer_count;i++)// loop over layers to push into vlayer
@@ -31,10 +33,15 @@ void convert_layer(std::vector<Layer>&vlayers, Rcpp::List layers, int layer_coun
        
     layer_d = S4layer.slot("d");//get the data from the slots
     complex<double> layer_eps = S4layer.slot("eps"); 
-       
+    //is_iso = S4layer.slot("type");
+
     a_layer.seteps(layer_eps);
     a_layer.setd(layer_d);
     
+    //if(is_iso==iso){
+      a_layer.setiso(true);
+    //}
+  
     vlayers[i]=a_layer;
   }
 }

@@ -47,7 +47,7 @@ namespace boost { namespace numeric { namespace ublas {
 template<typename MATRIX> MATRIX expm_pad(const MATRIX &H, const int p = 6)
 {
 	typedef typename MATRIX::value_type value_type;
-        typedef typename MATRIX::size_type size_type;
+  typedef typename MATRIX::size_type size_type;
 	typedef double real_value_type;	// Correct me. Need to modify.
 	assert(H.size1() == H.size2());	
 	const size_type n = H.size1();

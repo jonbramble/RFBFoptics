@@ -232,7 +232,7 @@ void Fbfoptics::gtm_eig(const matrix<double>& Delta, const double k0, const doub
         	for (unsigned j = 0; j < 4; ++ j)
             		Tw(i,j)=complex<double>(0,-h*k0*Delta(i,j));
                 
-  T = expm_pad(Tw); // change this to eigs method
+  T = expm_eigen(Tw); // change this to eigs method
 }
 
 //Calculate the total transfer matrix
@@ -244,10 +244,11 @@ void Fbfoptics::total_trans(std::vector<matrix<complex<double> > > prod_seq, mat
 
 	Temp = Id; // resets temp
 
-	for ( mat_it=prod_seq.rbegin() ; mat_it<prod_seq.rend(); mat_it++ ){//iterate over elements
+	for ( mat_it=prod_seq.rbegin() ; mat_it<prod_seq.rend(); mat_it++ ){  //iterate over elements
 			T = prod(*mat_it,Temp);
 			Temp = T;
 	}
+
 }
 
 

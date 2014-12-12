@@ -49,6 +49,19 @@ setGeneric("run", function(object) {
   standardGeneric("run")
 })
 
+setGeneric("sprmin", function(object) {
+  standardGeneric("sprmin")
+})
+
+setGeneric("rppval", function(e1,e2) {
+  standardGeneric("rppval")
+})
+
+setMethod("rppval",signature(e1="SPR",e2="numeric"),function(e1,e2){
+  Rpp<-S4sprval(e1,e2)
+  return(Rpp)
+})
+
 setMethod("run",signature(object="SPR"),function(object){
   Rpp<-S4spr(object)
   int_angle <- seq(length=object@points,from=object@start_angle,to=object@end_angle)
@@ -65,6 +78,11 @@ setMethod("initialize",signature="SPR",function(.Object){
 setMethod("show", signature(object="SPR"), function(object){
   cat(" SPR base data \n")   
   cat(" Number of data points:", object@points , "\n")
+  cat(" Wavelength:", object@lambda , "\n")
+  cat(" Starting Angle:", object@start_angle , "\n")
+  cat(" Ending Angle:", object@end_angle , "\n")
+  cat(" Entry Medium Index:", object@n_entry , "\n")
+  cat(" Exit Medium Index:", object@n_exit , "\n")
 })
 
 setMethod("+", signature(e1="SPR",e2="IsoLayer"), function(e1,e2){

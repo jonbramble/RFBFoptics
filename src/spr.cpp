@@ -16,16 +16,16 @@ FBF-Optics is free software: you can redistribute it and/or modify it
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "spr.hpp"
 
 Spr::Spr(){
-	data = boost::numeric::ublas::vector<double>(100);
-	setnpts(100);// set defaults
+	Spr(100);
 }
 
 Spr::Spr(int N){
 	data = boost::numeric::ublas::vector<double>(N);
+  s_pi = boost::math::constants::pi<double>();
+  cores = std::thread::hardware_concurrency();
 	setnpts(N);
 }
 
@@ -45,26 +45,37 @@ void Spr::getdata(boost::numeric::ublas::vector<double>& ret_data){
 	ret_data=data;
 }
 
+void Spr::getmin(double& ret_min){
+  ret_min=min;
+}
+
 //this should find the spr minimum
 void Spr::sprmin(){
   // calculate the critical angle and see if we are beyond it
-  // is there an algorithm for this
+  // is there an algorithm for this kind of progressing min
+  
+  // calculate rpp for an angle
+  // if it is falling continue
+  // when value increases, check local 2nd derivative, should be above zero for minimum
+  // return min value
+  
+  // hard to parallelize 
+  min = 20; //test min
+  
 }
 
 void Spr::rpp_array(){ 
-  static const double s_pi = static_cast<double>(3.141592653589793238462643383279502884197L);
-  
-  end_angle_rad = endangle*(s_pi/180);
-  start_angle_rad = sangle*(s_pi/180);
-	range_rad = end_angle_rad-start_angle_rad;
-  
   //parallel processing part
-  int cores = std::thread::hardware_concurrency();
+  //static const int cores = std::thread::hardware_concurrency();
   std::vector<std::thread> threads;
   
   int parts = N / cores;
   int extra = N % cores;
   int start, end;
+  
+  end_angle_rad = endangle*(s_pi/180);
+  start_angle_rad = sangle*(s_pi/180);
+  range_rad = end_angle_rad-start_angle_rad;
 
   for (int i=0; i<cores; ++i) // 1 per core:
   {
@@ -120,13 +131,6 @@ double Spr::rpp_phia(double phia){
       eps = v.geteps();
   		d = v.getd();
       gtmiso(eps,k0,eta,-1*d,Tli);
-      
-      //anisotropic only
-      //{
-      //  dietens(eps, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, ep);
-      //  diffpropmat(ep, eta, Delta);     //anisotropic only
-      //  gtm(Delta,eta,k0,d,Tli);
-      //}  
 			prod_seq.push_back(Tli);
 	}
   
@@ -141,3 +145,10 @@ double Spr::rpp_phia(double phia){
 void Spr::run(){
   rpp_array();
 }
+
+//anisotropic only
+//{
+//dietens(eps, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, ep);
+//diffpropmat(ep, eta, Delta);
+//gtm(Delta,eta,k0,d,Tli);
+//}  

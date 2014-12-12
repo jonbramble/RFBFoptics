@@ -20,11 +20,9 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 
 
 Fbfoptics::Fbfoptics(){
-
 }
 
 Fbfoptics::~Fbfoptics(){
-
 }
 
 // Construct the entrance matrix
@@ -225,6 +223,7 @@ void Fbfoptics::gtm(const matrix<double>& Delta, const double k0, const double h
   
 }
 
+//Calculate the general transfer matrix
 void Fbfoptics::gtm_eig(const matrix<double>& Delta, const double k0, const double h, matrix<complex<double> >& T){
   //here we need an eigenvalue solution for the matrix exponential becuase this contains physically relavent information
   matrix<complex<double> > Tw = Delta;

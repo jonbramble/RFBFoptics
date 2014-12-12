@@ -5,15 +5,46 @@
 
 using namespace Rcpp;
 
+// S4sprval
+NumericVector S4sprval(S4 fullstack, NumericVector angle);
+RcppExport SEXP FBFoptics_S4sprval(SEXP fullstackSEXP, SEXP angleSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< S4 >::type fullstack(fullstackSEXP );
+        Rcpp::traits::input_parameter< NumericVector >::type angle(angleSEXP );
+        NumericVector __result = S4sprval(fullstack, angle);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
 // S4spr
-Rcpp::NumericVector S4spr(Rcpp::S4 fullstack);
+NumericVector S4spr(S4 fullstack);
 RcppExport SEXP FBFoptics_S4spr(SEXP fullstackSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< Rcpp::S4 >::type fullstack(fullstackSEXP );
-        Rcpp::NumericVector __result = S4spr(fullstack);
+        Rcpp::traits::input_parameter< S4 >::type fullstack(fullstackSEXP );
+        NumericVector __result = S4spr(fullstack);
+        PROTECT(__sexp_result = Rcpp::wrap(__result));
+    }
+    UNPROTECT(1);
+    return __sexp_result;
+END_RCPP
+}
+// S4sprmin
+NumericVector S4sprmin(S4 fullstack);
+RcppExport SEXP FBFoptics_S4sprmin(SEXP fullstackSEXP) {
+BEGIN_RCPP
+    SEXP __sexp_result;
+    {
+        Rcpp::RNGScope __rngScope;
+        Rcpp::traits::input_parameter< S4 >::type fullstack(fullstackSEXP );
+        NumericVector __result = S4sprmin(fullstack);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

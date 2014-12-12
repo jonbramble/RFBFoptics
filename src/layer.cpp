@@ -25,6 +25,3 @@ char* Layer::getname(){ return name; }
 
 void Layer::seteps(complex<double> _eps){ eps = _eps; }
 std::complex<double> Layer::geteps(){ return eps; }
-
-void Layer::setiso(bool _is_iso){ is_iso = _is_iso; }
-bool Layer::getiso(){ return is_iso; }

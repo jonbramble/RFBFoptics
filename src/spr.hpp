@@ -19,6 +19,7 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 #define SPR_H
 
 #include <boost/math/complex/asin.hpp>
+#include <boost/math/constants/constants.hpp>
 #include <thread>
 #include <mutex>
 
@@ -42,17 +43,17 @@ class Spr: public Fbfoptics {
 	
   void run();
   void sprmin();
-  
   void rpp_array();
   
 	void getdata(boost::numeric::ublas::vector<double>& ret_data);
+  void getmin(double& min);
 	
 	private:
 
 	void setnpts(double _N);
-	double na, nf, sangle, endangle, lambda, end_angle_rad, start_angle_rad, range_rad;
+	double na, nf, sangle, endangle, lambda, end_angle_rad, start_angle_rad, range_rad, s_pi;
   
-	int N, size;
+	int N, size, cores;
   std::mutex mu;
   
   void rpp_segments(int, int);
@@ -60,6 +61,8 @@ class Spr: public Fbfoptics {
 
 	boost::numeric::ublas::vector<double> data;
 	std::vector<IsoLayer> vlayers;
+  
+  double min;
 
 };
 

@@ -31,29 +31,13 @@ class Layer {
 		void setd(double _d);
 		double getd();
 		
-		void setiso(bool _is_iso);
-		bool getiso();
-
-		void setepsx(double _epsx);
-		void setepsy(double _epsy);
-		void setepsz(double _epsz);
-		void settheta(double _theta);
-		void setphi(double _phi);
-
-		double getepsx();
-		double getepsy();
-		double getepsz();
-		double gettheta();
-		double getphi();
-
 		void seteps(complex<double> _eps);
 		complex<double> geteps();
 
 	private:
 		char* name;
 		double d;
-		double epsx, epsy, epsz, theta, phi;
-		bool is_iso;
+
 		complex<double> eps;
 
 };

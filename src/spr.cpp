@@ -35,7 +35,7 @@ void Spr::setstartangle(double _sangle){sangle = _sangle;}
 void Spr::setendangle (double _endangle){endangle = _endangle;}
 void Spr::setnf(double _nf){nf = _nf;}
 void Spr::setnlayers(double _size){size = _size;}
-void Spr::setlayers(std::vector<Layer> _layers){   // must check these have been called
+void Spr::setlayers(std::vector<IsoLayer> _layers){   // must check these have been called
 	vlayers = _layers;
 }		
 	
@@ -116,13 +116,12 @@ double Spr::rpp_phia(double phia){
 	prod_seq.push_back(ILa); 
   
   //iterate over physical layers
-	for(Layer& v : vlayers){
+	for(IsoLayer& v : vlayers){
       eps = v.geteps();
   		d = v.getd();
-      if(v.getiso()==true){
-        gtmiso(eps,k0,eta,-1*d,Tli);
-      }
-      //else     //anisotropic only
+      gtmiso(eps,k0,eta,-1*d,Tli);
+      
+      //anisotropic only
       //{
       //  dietens(eps, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, ep);
       //  diffpropmat(ep, eta, Delta);     //anisotropic only

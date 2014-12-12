@@ -1,5 +1,5 @@
 /*
- * layer.cc
+ * anisolayer.hpp
  * Copyright (C) Jonathan Bramble 2011
  * 
 FBF-Optics is free software: you can redistribute it and/or modify it
@@ -15,16 +15,32 @@ FBF-Optics is free software: you can redistribute it and/or modify it
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+#ifndef ANISOLAYER_H_
+#define ANISOLAYER_H_
+
 #include "layer.hpp"
 
-void Layer::setd(double _d){ d = _d; }
-double Layer::getd(){ return d; }
+class AnisoLayer : public Layer {
+  
+  public:
+    void setepsx(double _epsx);
+		void setepsy(double _epsy);
+		void setepsz(double _epsz);
+		void settheta(double _theta);
+		void setphi(double _phi);
 
-void Layer::setname(char* _name){ name = _name; }
-char* Layer::getname(){ return name; }
+		double getepsx();
+		double getepsy();
+		double getepsz();
+		double gettheta();
+		double getphi();
+    
+  private:   
+    double epsx, epsy, epsz, theta, phi;
+  
+};
 
-void Layer::seteps(complex<double> _eps){ eps = _eps; }
-std::complex<double> Layer::geteps(){ return eps; }
 
-void Layer::setiso(bool _is_iso){ is_iso = _is_iso; }
-bool Layer::getiso(){ return is_iso; }
+
+#endif

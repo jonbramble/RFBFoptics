@@ -23,9 +23,8 @@
 #' @slot eps The relative permittivity of the material as a complex number
 #' 
 
-Layer <- setClass("Layer", 
+IsoLayer <- setClass("IsoLayer", 
          representation(
-           type="character",
            d="numeric",
            eps="complex"
          )

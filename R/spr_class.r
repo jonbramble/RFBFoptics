@@ -67,7 +67,7 @@ setMethod("show", signature(object="SPR"), function(object){
   cat(" Number of data points:", object@points , "\n")
 })
 
-setMethod("+", signature(e1="SPR",e2="Layer"), function(e1,e2){
+setMethod("+", signature(e1="SPR",e2="IsoLayer"), function(e1,e2){
   e1@layers <- c(e1@layers,e2)
   structure(e1,class="SPR")
 })

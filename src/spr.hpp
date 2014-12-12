@@ -23,7 +23,8 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 #include <mutex>
 
 #include "fbfoptics.hpp"
-#include "layer.hpp"
+#include "isolayer.hpp"
+#include "anisolayer.hpp"
 
 class Spr: public Fbfoptics {
 		
@@ -36,7 +37,7 @@ class Spr: public Fbfoptics {
 	void setna( double _na);
 	void setnf( double _nf);
 	void setnlayers(double _size);
-	void setlayers(std::vector<Layer> _layers);
+	void setlayers(std::vector<IsoLayer> _layers);
 	void setlambda(double _lambda);
 	
   void run();
@@ -58,7 +59,7 @@ class Spr: public Fbfoptics {
   double rpp_phia(double phia);
 
 	boost::numeric::ublas::vector<double> data;
-	std::vector<Layer> vlayers;
+	std::vector<IsoLayer> vlayers;
 
 };
 

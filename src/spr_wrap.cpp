@@ -18,14 +18,10 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 
 #include <Rcpp.h>
 #include "spr.hpp"
-//using namespace Rcpp;
 
-void convert_layer(std::vector<Layer>&vlayers, Rcpp::List layers, int layer_count){
-  Layer a_layer;
+void convert_layer(std::vector<IsoLayer>&vlayers, Rcpp::List layers, int layer_count){
+  IsoLayer a_layer;
   double layer_d;
-  Rcpp::CharacterVector is_iso;
-  //Rcpp::CharacterVector iso("isotropic");
-  //complex<double> layer_eps;
   //convert to layers    //could I use std::transform need iterators
   for(int i=0;i<layer_count;i++)// loop over layers to push into vlayer
   {
@@ -33,15 +29,11 @@ void convert_layer(std::vector<Layer>&vlayers, Rcpp::List layers, int layer_coun
        
     layer_d = S4layer.slot("d");//get the data from the slots
     complex<double> layer_eps = S4layer.slot("eps"); 
-    //is_iso = S4layer.slot("type");
 
     a_layer.seteps(layer_eps);
     a_layer.setd(layer_d);
-    
-    //if(is_iso==iso){
-      a_layer.setiso(true);
-    //}
-  
+    a_layer.setiso(true);
+ 
     vlayers[i]=a_layer;
   }
 }
@@ -60,14 +52,14 @@ Rcpp::NumericVector S4spr(Rcpp::S4 fullstack){
   end_angle = fullstack.slot("end_angle");
   layers = fullstack.slot("layers");
     
-  Spr *spr_simulation = new Spr(N);  // create simulation
-  Rcpp::NumericVector y(N); // create rcpp numeric vector
+  Spr *spr_simulation = new Spr(N);     // create simulation
+  Rcpp::NumericVector y(N);             // create rcpp numeric vector
   boost::numeric::ublas::vector<double> result(N); // allocation boost vector for result
   
   layer_count = layers.size();
-  std::vector<Layer> vlayers(layer_count);  // vector of layers
+  std::vector<IsoLayer> vlayers(layer_count);   // vector of layers
 
-  convert_layer(vlayers,layers,layer_count); // r to layer conversion
+  convert_layer(vlayers,layers,layer_count);    // r to layer conversion
   
   spr_simulation->setnlayers(layer_count);
   spr_simulation->setlayers(vlayers);

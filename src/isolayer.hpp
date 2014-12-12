@@ -1,5 +1,5 @@
 /*
- * layer.cc
+ * isolayer.hpp
  * Copyright (C) Jonathan Bramble 2011
  * 
 FBF-Optics is free software: you can redistribute it and/or modify it
@@ -15,16 +15,18 @@ FBF-Optics is free software: you can redistribute it and/or modify it
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+#ifndef ISOLAYER_H_
+#define ISOLAYER_H_
+
 #include "layer.hpp"
 
-void Layer::setd(double _d){ d = _d; }
-double Layer::getd(){ return d; }
+class IsoLayer : public Layer {
+  
+  
+};
 
-void Layer::setname(char* _name){ name = _name; }
-char* Layer::getname(){ return name; }
+#endif
 
-void Layer::seteps(complex<double> _eps){ eps = _eps; }
-std::complex<double> Layer::geteps(){ return eps; }
 
-void Layer::setiso(bool _is_iso){ is_iso = _is_iso; }
-bool Layer::getiso(){ return is_iso; }
+

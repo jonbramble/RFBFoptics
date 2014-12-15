@@ -58,6 +58,8 @@ class Spr: public Fbfoptics {
   
   void rpp_segments(int, int);
   double rpp_phia(double phia);
+  double rpp_p1(double phia);
+  double rpp_p2(double phia);
 
 	boost::numeric::ublas::vector<double> data;
 	std::vector<IsoLayer> vlayers;

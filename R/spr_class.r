@@ -69,6 +69,11 @@ setMethod("run",signature(object="SPR"),function(object){
   return(dat)
 })
 
+setMethod("sprmin",signature(object="SPR"),function(object){
+  Rpp<-S4sprmin(object)
+  return(Rpp)
+})
+
 setMethod("initialize",signature="SPR",function(.Object){
   value <- callNextMethod()
   validObject(value) 

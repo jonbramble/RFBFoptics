@@ -82,9 +82,8 @@ NumericVector S4sprval(S4 fullstack, NumericVector angle){
   Rcpp::NumericVector y(N);             // create rcpp numeric vector for result
   boost::numeric::ublas::vector<double> result(N); // allocation boost vector for result
   
-  spr_simulation->run();  //more error handling required probabily
-  // this could be more efficient with less unness code execution
-	spr_simulation->getdata(result);
+  spr_simulation->run();                //more error handling required probabily
+	spr_simulation->getdata(result);      // this could be more efficient with less unness code execution
   
   delete spr_simulation;  
   y = result;
@@ -110,12 +109,20 @@ NumericVector S4spr(S4 fullstack){
   return y;
 }
 
-
-
+// return the min angle
 // [[Rcpp::export]]
 NumericVector S4sprmin(S4 fullstack){
   int N;
-  N = fullstack.slot("points");
-  NumericVector y(N);
+  NumericVector y(1);  
+  double result;
+  
+  Spr *spr_simulation = new Spr(1);     // create simulation with N points
+  setsim(fullstack, spr_simulation);    // set parameters
+  
+  spr_simulation->sprmin();  //more error handling required probabily
+  spr_simulation->getmin(result);
+  
+  delete spr_simulation;  
+  y = result;
   return y;
 }

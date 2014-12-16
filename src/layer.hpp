@@ -32,11 +32,21 @@ class Layer {
 		double getd();
 		
 		void seteps(complex<double> _eps);
+    void setfitd(bool _fit);
+    bool getfitd();
+    
+    void setdstart(double _dstart);
+    double getdstart();
+    
+    void setdend(double _dend);
+    double getdend();
+    
 		complex<double> geteps();
 
 	private:
 		char* name;
-		double d;
+		double d, dstart, dend;
+    bool fitd;
 
 		complex<double> eps;
 

@@ -18,7 +18,6 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 
 #include "sprg.hpp"
 
-
 SPRG::SPRG(int N){
   data = boost::numeric::ublas::vector<double>(N);
   cores = std::thread::hardware_concurrency();

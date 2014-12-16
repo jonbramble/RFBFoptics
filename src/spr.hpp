@@ -29,36 +29,37 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 
 class SPR: public Fbfoptics {
 		
-	public:
-  
-	SPR();
-	
-	void setna( double _na);
-	void setnf( double _nf);
-	void setnlayers(double _size);
-	void setlayers(std::vector<IsoLayer> _layers);
-	void setlambda(double _lambda);
-  void setangle(double _angle);
-	
-  void sprmin();
-  void sprval();
-  void getmin(double& min);
-  void getval(double& val);
-  
-  protected:
-  
-  double s_pi;
-  double rpp_phia(double phia);
-	
-	private:
-  
-  int size;
-
-	double na, nf, lambda, min, angle, val;
-  double rpp_p1(double phia);
-  double rpp_p2(double phia);
-
-	std::vector<IsoLayer> vlayers;
+		public:
+		
+		  SPR();
+		
+		  void setna( double _na);
+		  void setnf( double _nf);
+		  void setnlayers(double _size);
+		  void setlayers(std::vector<IsoLayer> _layers);
+		  void setlambda(double _lambda);
+		  void setangle(double _angle);
+		
+		  void sprmin();
+		  void sprval();
+		  void getmin(double& min);
+		  void getval(double& val);
+		
+		protected:
+		
+		  double s_pi;
+		  double rpp_phia(double phia);
+      double rpp_phia(double phia, double d);
+		
+		private:
+		
+		  int size;
+		
+		  double na, nf, lambda, min, angle, val;
+		  double rpp_p1(double phia);
+		  double rpp_p2(double phia);
+		
+		  std::vector<IsoLayer> vlayers;
   
 };
 

@@ -18,25 +18,82 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 
 #include <Rcpp.h>
 #include "sprg.hpp"
+#include "sprd.hpp"
 
 using namespace Rcpp;
 
 void convert_layer(std::vector<IsoLayer>&vlayers, List layers, int layer_count){
   IsoLayer a_layer;
   double layer_d;
-  //convert to layers    //could I use std::transform need iterators
+  bool layer_fitd;
+  
   for(int i=0;i<layer_count;i++)// loop over layers to push into vlayer
   {
     S4 S4layer((SEXP)layers[i]);// get the layer S4 object from the list
        
     layer_d = S4layer.slot("d");//get the data from the slots
+    layer_fitd = S4layer.slot("fitd");//get the data from the slots
+    
     complex<double> layer_eps = S4layer.slot("eps"); 
-
     a_layer.seteps(layer_eps);
-    a_layer.setd(layer_d);
- 
+    
+    if(layer_fitd){
+      double dstart, dend;
+      dstart = S4layer.slot("dstart");  
+      dend = S4layer.slot("dend");
+      a_layer.setfitd(true);
+      a_layer.setdstart(dstart);
+      a_layer.setdend(dend);
+    }
+    else
+    {
+      a_layer.setfitd(false);
+      a_layer.setd(layer_d);
+    }
+    // check that there is only one fitted layer per stack with a counter
     vlayers[i]=a_layer;
   }
+}
+
+void setsim(S4 fullstack, SPRD *spr_simulation){
+  
+  int layer_count;
+  double lambda, n_entry, n_exit, angle, dstart, dend;
+  Rcpp::List layers;
+  
+  lambda = fullstack.slot("lambda");
+  n_entry = fullstack.slot("n_entry");
+  n_exit = fullstack.slot("n_exit");
+  angle = fullstack.slot("angle");
+  std::cout << "angle " << angle << std::endl;
+  layers = fullstack.slot("layers");
+  
+  layer_count = layers.size();
+  std::vector<IsoLayer> vlayers(layer_count);   // vector of layers
+  convert_layer(vlayers,layers,layer_count);    // r to layer conversion
+  
+   for(int i=0;i<layer_count;i++)// loop over layers -swaps d data into sprd structure
+   {
+     if(vlayers[i].getfitd()){
+       //std::cout << "vlayer " << i << std::endl;
+       dstart = vlayers[i].getdstart();
+       dend = vlayers[i].getdend();
+       spr_simulation->setdstart(dstart);
+       spr_simulation->setdend(dend);
+     }
+     // need to check for more than one layers with fitd true 
+   }
+  
+  spr_simulation->setnlayers(layer_count);
+  spr_simulation->setlayers(vlayers);
+
+  spr_simulation->setangle(angle); 
+
+  spr_simulation->setna(n_entry);
+	spr_simulation->setnf(n_exit);
+	spr_simulation->setlambda(lambda);
+
+  return; 
 }
 
 void setsim(S4 fullstack, SPRG *spr_simulation){
@@ -99,7 +156,7 @@ void setsim(S4 fullstack, SPR *spr_simulation){
 
 // return the value of rpp only at a chosen angle for the layers specified
 // [[Rcpp::export]]
-NumericVector S4sprval(S4 fullstack, NumericVector angle){
+NumericVector S4_SPRVAL(S4 fullstack, NumericVector angle){
   SPR *spr_simulation = new SPR();
   setsim(fullstack, spr_simulation);
   
@@ -119,7 +176,7 @@ NumericVector S4sprval(S4 fullstack, NumericVector angle){
 
 // return the full set of data
 // [[Rcpp::export]]
-NumericVector S4spr(S4 fullstack){
+NumericVector S4_SPRG(S4 fullstack){
   int N = fullstack.slot("points"); 
   SPRG *spr_simulation = new SPRG(N);     // create simulation with N points
   setsim(fullstack, spr_simulation);      // set parameters
@@ -135,10 +192,27 @@ NumericVector S4spr(S4 fullstack){
   return y;
 }
 
+// return the full set of data for thickness change at fixed angle
+// [[Rcpp::export]]
+NumericVector S4_SPRD(S4 fullstack){
+  int N = fullstack.slot("points"); 
+  SPRD *spr_simulation = new SPRD(N);     // create simulation with N points
+  setsim(fullstack, spr_simulation);      // set parameters
+    
+  Rcpp::NumericVector y(N);               // create rcpp numeric vector for result
+  boost::numeric::ublas::vector<double> result(N); // allocation boost vector for result
+
+  spr_simulation->run();  //more error handling required probabily
+	spr_simulation->getdata(result);
+    
+  delete spr_simulation;  
+  y = result;
+  return y;
+}
+
 // return the min angle
 // [[Rcpp::export]]
-NumericVector S4sprmin(S4 fullstack){
-  int N;
+NumericVector S4_SPRMIN(S4 fullstack){
   NumericVector y(1);  
   double result;
   

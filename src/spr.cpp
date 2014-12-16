@@ -25,10 +25,9 @@ SPR::SPR(){
 void SPR::setna(double _na){na = _na;}
 void SPR::setnf(double _nf){nf = _nf;}
 void SPR::setangle(double _angle){angle = _angle;}
+void SPR::setlambda(double _lambda){lambda = _lambda;}
 void SPR::setnlayers(double _size){size = _size;}
 void SPR::setlayers(std::vector<IsoLayer> _layers){ vlayers = _layers; } // must check these have been called
-	
-void SPR::setlambda(double _lambda){lambda = _lambda;}
 
 void SPR::getval(double& ret_val){ret_val=val;}
 void SPR::getmin(double& ret_min){ret_min=min;}
@@ -43,6 +42,7 @@ void SPR::sprval(){
 void SPR::sprmin(){
   
   double result, result_old, phia, crangle, step;
+  int limit = 1000;
   int k = 0;
   double eps = 0.0001;
   double precision = 0.00001;  
@@ -64,7 +64,7 @@ void SPR::sprmin(){
     result =  rpp_phia(phia-step);
     phia -= step;               // update phia value
     k++;    
-  }while((abs(result - result_old) > precision) && k < 1000);
+  }while((abs(result - result_old) > precision) && k < limit);   // limit the number of steps
 
   min = phia*(180/s_pi);  // return the angle of the min in degrees in min var
   
@@ -104,8 +104,6 @@ double SPR::rpp_p2(double phia){
 // value of rpp at a fixed value of phia for the stack
 double SPR::rpp_phia(double phia){
   
-  static const double s_pi = static_cast<double>(3.141592653589793238462643383279502884197L);
-
 	matrix<complex<double> > T(4,4), ILa(4,4), Lf(4,4), Tli(4,4);
   matrix<double> ep(4,4), Delta(4,4);
 	identity_matrix<complex<double> > Id(4,4);
@@ -131,6 +129,51 @@ double SPR::rpp_phia(double phia){
       eps = v.geteps();
   		d = v.getd();
       gtmiso(eps,k0,eta,-1*d,Tli);
+			prod_seq.push_back(Tli);
+	}
+  
+	prod_seq.push_back(Lf);           //add exit matrix at end
+	total_trans(prod_seq, T);
+	prod_seq.clear();
+
+	return rpp(T);                    // need to choose data rpp rps etc
+}
+
+// value of rpp at a fixed value of phia for the stack
+double SPR::rpp_phia(double phia, double d){
+  
+  matrix<complex<double> > T(4,4), ILa(4,4), Lf(4,4), Tli(4,4);
+  matrix<double> ep(4,4), Delta(4,4);
+  identity_matrix<complex<double> > Id(4,4);
+  std::vector<boost::numeric::ublas::matrix<complex<double> > > prod_seq;
+  
+	complex<double>	result, zcphif2, phif, cphif, eps;
+
+	double cphia, eta, dval;
+	double k0 = (2*s_pi)/lambda; // laser wavevector
+	
+	cphia = cos(phia); 
+	eta = na*sin(phia); // x comp of wavevector
+	zcphif2 = complex<double>(1-pow((na/nf)*sin(phia),2),0);  // this always picks the correct sector
+	cphif = sqrt(zcphif2);
+		
+	incmat(na,cphia,ILa);
+	extmat(nf,cphif,Lf);
+		
+	prod_seq.push_back(ILa); 
+  
+  //iterate over physical layers
+	for(IsoLayer& v : vlayers){
+      eps = v.geteps();
+      if(v.getfitd())
+      {
+        dval = d;
+      }
+      else
+      {
+        dval = v.getd();
+      }  	
+      gtmiso(eps,k0,eta,-1*dval,Tli);
 			prod_seq.push_back(Tli);
 	}
   

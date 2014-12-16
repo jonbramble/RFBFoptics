@@ -19,6 +19,8 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 #ifndef SPRD_H
 #define SPRD_H
 
+// vector calculations over thickness of a layer
+
 #include "spr.hpp"
 #include <thread>
 #include <mutex>
@@ -27,25 +29,26 @@ class SPRD : public SPR {
   
   public:
   
-  SPRD(int N);
+    SPRD(int N);
   
-  int N, cores;
-  std::mutex mu;
-  double angle, sd, endd, drange; 
+    int N, cores;
+    std::mutex mu;
+    double angle, dstart, dend, drange;   // get this from the single fitted layer
   
-  void run();
-  void getdata(boost::numeric::ublas::vector<double>& ret_data);
+    void run();
+    void getdata(boost::numeric::ublas::vector<double>& ret_data);
   
-  boost::numeric::ublas::vector<double> data;
+    boost::numeric::ublas::vector<double> data;
   
-  void setstartd(double _sd);
-  void setendd(double _endd);
+    void setdstart(double _dstart);
+    void setdend(double _dend);
   
   private:
 
-  void setnpts(double _N);
-  void rpp_array();
-  void rpp_segments(int start, int end);
+    void setnpts(double _N);
+    void rpp_array();
+    void rpp_segments(int start, int end);
+
   
 };
 

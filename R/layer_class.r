@@ -24,9 +24,13 @@
 
 IsoLayer <- setClass("IsoLayer", 
          representation(
+           fitd="logical",
+           dstart="numeric",
+           dend="numeric",
            d="numeric",
            eps="complex"
-         )
+         ),
+         prototype(fitd=FALSE,dstart=0.0,dend=0.0,d=0.0,eps=0+0i)
 )
 
 #' An S4 class to represent anisotropic layer.
@@ -47,19 +51,5 @@ AnIsoLayer <- setClass("AnIsoLayer",
                        epsz="numeric",
                        theta="numeric",
                        phi="numeric"
-                     )
-)
-
-#' An S4 class to represent a thin dielectric or metallic layer.
-#'
-#' @slot d Thickness of the layer in m
-#' @slot eps The relative permittivity of the material as a complex number
-#' 
-
-DIsoLayer <- setClass("DIsoLayer", 
-                     representation(
-                       dstart="numeric",
-                       dend="numeric",
-                       eps="complex"
                      )
 )

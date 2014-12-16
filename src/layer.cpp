@@ -20,6 +20,15 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 void Layer::setd(double _d){ d = _d; }
 double Layer::getd(){ return d; }
 
+void Layer::setdstart(double _dstart){ dstart = _dstart; }
+double Layer::getdstart(){ return dstart; }
+
+void Layer::setdend(double _dend){ dend = _dend; }
+double Layer::getdend(){ return dend; }
+
+void Layer::setfitd(bool _fitd){ fitd = _fitd; }
+bool Layer::getfitd(){ return fitd; }
+
 void Layer::setname(char* _name){ name = _name; }
 char* Layer::getname(){ return name; }
 

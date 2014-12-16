@@ -36,7 +36,7 @@ SPRG <- setClass("SPRG",
            end_angle="numeric",
            layers="list"
            ),
-         prototype(points=100,lambda=633e-9,n_entry=1.85,n_exit=1.33,start_angle=45,end_angle=60)
+           prototype(points=100,lambda=633e-9,n_entry=1.85,n_exit=1.33,start_angle=45,end_angle=60)
 )
 
 
@@ -72,6 +72,7 @@ SPR <- setClass("SPR",
 #' 
 SPRD <- setClass("SPRD", 
                 representation(
+                  points="numeric",
                   lambda="numeric",
                   n_entry="numeric",
                   n_exit="numeric",
@@ -94,43 +95,49 @@ validitySPR <- function(object){
 setValidity("SPR",validitySPR)
 setValidity("SPRG",validitySPRG)
 
-setGeneric("curve", function(object) {
-  standardGeneric("curve")
-})
-
-setGeneric("sprmin", function(object) {
-  standardGeneric("sprmin")
-})
-
-setGeneric("rppval", function(e1,e2) {
-  standardGeneric("rppval")
-})
+setGeneric("curve", function(object) {standardGeneric("curve")})
+setGeneric("sprmin", function(object){standardGeneric("sprmin")})
+setGeneric("rppval", function(e1,e2) {standardGeneric("rppval")})
 
 setMethod("rppval",signature(e1="SPR",e2="numeric"),function(e1,e2){
-  Rpp<-S4sprval(e1,e2)
+  Rpp<-S4_SPRVAL(e1,e2)
   return(Rpp)
 })
 
 setMethod("rppval",signature(e1="SPRG",e2="numeric"),function(e1,e2){
-  Rpp<-S4sprval(e1,e2)
+  Rpp<-S4_SPRVAL(e1,e2)
   return(Rpp)
 })
 
 setMethod("curve",signature(object="SPRG"),function(object){
-  Rpp<-S4spr(object)
+  Rpp<-S4_SPRG(object)
   int_angle <- seq(length=object@points,from=object@start_angle,to=object@end_angle)
   dat <- cbind(int_angle,Rpp)
   return(dat)
 })
 
+setMethod("curve",signature(object="SPRD"),function(object){
+  Rpp<-S4_SPRD(object)
+  #d_array <- seq(length=object@points,from=object@dstart,to=object@dend)
+  #dat <- cbind(d_array,Rpp)
+  return(Rpp)
+})
+
 setMethod("sprmin",signature(object="SPR"),function(object){
-  Rpp<-S4sprmin(object)
+  Rpp<-S4_SPRMIN(object)
   return(Rpp)
 })
 
 setMethod("sprmin",signature(object="SPRG"),function(object){
-  Rpp<-S4sprmin(object)
+  Rpp<-S4_SPRMIN(object)
   return(Rpp)
+})
+
+#not sure what these are for
+setMethod("initialize",signature="SPRD",function(.Object){
+  value <- callNextMethod()
+  validObject(value) 
+  value
 })
 
 setMethod("initialize",signature="SPRG",function(.Object){
@@ -139,8 +146,31 @@ setMethod("initialize",signature="SPRG",function(.Object){
   value
 })
 
+setMethod("initialize",signature="SPR",function(.Object){
+  value <- callNextMethod()
+  validObject(value) 
+  value
+})
+
+setMethod("show", signature(object="IsoLayer"),function(object){
+  cat(" Isotropic Layer data \n")
+})
+
+setMethod("show", signature(object="DIsoLayer"),function(object){
+  cat(" Varible Thickness Isotropic Layer data \n")
+})
+
 setMethod("show", signature(object="SPR"), function(object){
   cat(" SPR base data \n")   
+  cat(" Wavelength:", object@lambda , "\n")
+  cat(" Angle:", object@angle , "\n")
+  cat(" Entry Medium Index:", object@n_entry , "\n")
+  cat(" Exit Medium Index:", object@n_exit , "\n")
+})
+
+setMethod("show", signature(object="SPRD"), function(object){
+  cat(" SPR base data \n")   
+  cat(" Number of data points:", object@points , "\n")
   cat(" Wavelength:", object@lambda , "\n")
   cat(" Angle:", object@angle , "\n")
   cat(" Entry Medium Index:", object@n_entry , "\n")
@@ -155,6 +185,16 @@ setMethod("show", signature(object="SPRG"), function(object){
   cat(" Ending Angle:", object@end_angle , "\n")
   cat(" Entry Medium Index:", object@n_entry , "\n")
   cat(" Exit Medium Index:", object@n_exit , "\n")
+})
+
+#setMethod("+", signature(e1="SPRD",e2="DIsoLayer"), function(e1,e2){
+#  e1@layers <- c(e1@layers,e2)
+#  structure(e1,class="SPRD")
+#})
+
+setMethod("+", signature(e1="SPRD",e2="IsoLayer"), function(e1,e2){
+  e1@layers <- c(e1@layers,e2)
+  structure(e1,class="SPRD")
 })
 
 setMethod("+", signature(e1="SPRG",e2="IsoLayer"), function(e1,e2){

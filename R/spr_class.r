@@ -60,11 +60,38 @@ SPR <- setClass("SPR",
                  prototype(lambda=633e-9,n_entry=1.85,n_exit=1.33,angle=50)
 )
 
+
+#' An S4 class to represent a SPR experiment.
+#' 
+#'
+#' @slot lambda Wavelength of light
+#' @slot n_entry Refractive index of the entry medium, eg a Prism
+#' @slot angle Exterior angle in degrees
+#' @slot n_exit Refractive index of the exit medium
+
+#' 
+SPRD <- setClass("SPRD", 
+                representation(
+                  lambda="numeric",
+                  n_entry="numeric",
+                  n_exit="numeric",
+                  angle="numeric",
+                  layers="list"
+                ),
+                prototype(lambda=633e-9,n_entry=1.85,n_exit=1.33,angle=50)
+)
+
 validitySPRG <- function(object){
   ## add real tests here - what can we check? n_entry > n_exit? end_angle > start_angle, end angle < 90
   TRUE
 }
 
+validitySPR <- function(object){
+  ## add real tests here - what can we check? n_entry > n_exit? end_angle > start_angle, end angle < 90
+  TRUE
+}
+
+setValidity("SPR",validitySPR)
 setValidity("SPRG",validitySPRG)
 
 setGeneric("curve", function(object) {

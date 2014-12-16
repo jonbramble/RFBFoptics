@@ -27,3 +27,8 @@ v <- rppval(stack_spr,min_angle)
 plot(rpp[,1],rpp[,2],type="l",xlab="Angle",ylab="rpp")
 
 
+sprd <- SPRD()  #setup an SPR simulations
+
+protein <- DIsoLayer(dstart=0,dend=10e-9)
+
+dstack <- sprd + au + sam + protein

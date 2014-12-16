@@ -49,3 +49,17 @@ AnIsoLayer <- setClass("AnIsoLayer",
                        phi="numeric"
                      )
 )
+
+#' An S4 class to represent a thin dielectric or metallic layer.
+#'
+#' @slot d Thickness of the layer in m
+#' @slot eps The relative permittivity of the material as a complex number
+#' 
+
+DIsoLayer <- setClass("DIsoLayer", 
+                     representation(
+                       dstart="numeric",
+                       dend="numeric",
+                       eps="complex"
+                     )
+)

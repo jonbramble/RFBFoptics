@@ -34,13 +34,34 @@ SPRG <- setClass("SPRG",
            n_exit="numeric",
            start_angle="numeric",
            end_angle="numeric",
-           layers = "list"
+           layers="list"
            ),
-         prototype(points=1000,lambda=633e-9,n_entry=1.85,n_exit=1.33,start_angle=45,end_angle=60)
+         prototype(points=100,lambda=633e-9,n_entry=1.85,n_exit=1.33,start_angle=45,end_angle=60)
+)
+
+
+#' An S4 class to represent a SPR experiment.
+#' 
+#'
+#' @slot lambda Wavelength of light
+#' @slot n_entry Refractive index of the entry medium, eg a Prism
+#' @slot angle Exterior angle in degrees
+#' @slot n_exit Refractive index of the exit medium
+
+#' 
+SPR <- setClass("SPR", 
+                 representation(
+                   lambda="numeric",
+                   n_entry="numeric",
+                   n_exit="numeric",
+                   angle="numeric",
+                   layers="list"
+                 ),
+                 prototype(lambda=633e-9,n_entry=1.85,n_exit=1.33,angle=50)
 )
 
 validitySPRG <- function(object){
-  ## add real tests here - what can we check? n_entry > n_exit? end_angle > start_angle
+  ## add real tests here - what can we check? n_entry > n_exit? end_angle > start_angle, end angle < 90
   TRUE
 }
 
@@ -58,6 +79,11 @@ setGeneric("rppval", function(e1,e2) {
   standardGeneric("rppval")
 })
 
+setMethod("rppval",signature(e1="SPR",e2="numeric"),function(e1,e2){
+  Rpp<-S4sprval(e1,e2)
+  return(Rpp)
+})
+
 setMethod("rppval",signature(e1="SPRG",e2="numeric"),function(e1,e2){
   Rpp<-S4sprval(e1,e2)
   return(Rpp)
@@ -68,6 +94,11 @@ setMethod("curve",signature(object="SPRG"),function(object){
   int_angle <- seq(length=object@points,from=object@start_angle,to=object@end_angle)
   dat <- cbind(int_angle,Rpp)
   return(dat)
+})
+
+setMethod("sprmin",signature(object="SPR"),function(object){
+  Rpp<-S4sprmin(object)
+  return(Rpp)
 })
 
 setMethod("sprmin",signature(object="SPRG"),function(object){
@@ -94,4 +125,9 @@ setMethod("show", signature(object="SPRG"), function(object){
 setMethod("+", signature(e1="SPRG",e2="IsoLayer"), function(e1,e2){
   e1@layers <- c(e1@layers,e2)
   structure(e1,class="SPRG")
+})
+
+setMethod("+", signature(e1="SPR",e2="IsoLayer"), function(e1,e2){
+  e1@layers <- c(e1@layers,e2)
+  structure(e1,class="SPR")
 })

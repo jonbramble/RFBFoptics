@@ -28,3 +28,24 @@ IsoLayer <- setClass("IsoLayer",
            eps="complex"
          )
 )
+
+#' An S4 class to represent anisotropic layer.
+#'
+#' @slot d Thickness of the layer in m
+#' @slot epsx The relative permittivity of the material in the x direction
+#' @slot epsy The relative permittivity of the material in the y direction
+#' @slot epsz The relative permittivity of the material in the z direction
+#' @slot theta angle of the molecular axis in relation to the prism axis - see diagram
+#' @slot phi angle of the molecular axis in relation to the prism axis - see diagram
+#' 
+
+AnIsoLayer <- setClass("AnIsoLayer", 
+                     representation(
+                       d="numeric",
+                       epsx="numeric",
+                       epsy="numeric",
+                       epsz="numeric",
+                       theta="numeric",
+                       phi="numeric"
+                     )
+)

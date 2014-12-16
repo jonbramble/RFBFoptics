@@ -17,6 +17,7 @@
 #
 
 #' An S4 class to represent a SPR experiment.
+#' G represents an angular variation to produce the classic spr curve
 #'
 #' @slot points The number of data points
 #' @slot lambda Wavelength of light
@@ -25,7 +26,7 @@
 #' @slot start_angle Exterior starting angle in degrees
 #' @slot end_angle Exterior ending angle in degrees
 #' 
-SPR <- setClass("SPR", 
+SPRG <- setClass("SPRG", 
          representation(
            points="numeric",
            lambda="numeric",
@@ -38,15 +39,15 @@ SPR <- setClass("SPR",
          prototype(points=1000,lambda=633e-9,n_entry=1.85,n_exit=1.33,start_angle=45,end_angle=60)
 )
 
-validitySPR <- function(object){
-  ## add real tests here
+validitySPRG <- function(object){
+  ## add real tests here - what can we check? n_entry > n_exit? end_angle > start_angle
   TRUE
 }
 
-setValidity("SPR",validitySPR)
+setValidity("SPRG",validitySPRG)
 
-setGeneric("run", function(object) {
-  standardGeneric("run")
+setGeneric("curve", function(object) {
+  standardGeneric("curve")
 })
 
 setGeneric("sprmin", function(object) {
@@ -57,30 +58,30 @@ setGeneric("rppval", function(e1,e2) {
   standardGeneric("rppval")
 })
 
-setMethod("rppval",signature(e1="SPR",e2="numeric"),function(e1,e2){
+setMethod("rppval",signature(e1="SPRG",e2="numeric"),function(e1,e2){
   Rpp<-S4sprval(e1,e2)
   return(Rpp)
 })
 
-setMethod("run",signature(object="SPR"),function(object){
+setMethod("curve",signature(object="SPRG"),function(object){
   Rpp<-S4spr(object)
   int_angle <- seq(length=object@points,from=object@start_angle,to=object@end_angle)
   dat <- cbind(int_angle,Rpp)
   return(dat)
 })
 
-setMethod("sprmin",signature(object="SPR"),function(object){
+setMethod("sprmin",signature(object="SPRG"),function(object){
   Rpp<-S4sprmin(object)
   return(Rpp)
 })
 
-setMethod("initialize",signature="SPR",function(.Object){
+setMethod("initialize",signature="SPRG",function(.Object){
   value <- callNextMethod()
   validObject(value) 
   value
 })
 
-setMethod("show", signature(object="SPR"), function(object){
+setMethod("show", signature(object="SPRG"), function(object){
   cat(" SPR base data \n")   
   cat(" Number of data points:", object@points , "\n")
   cat(" Wavelength:", object@lambda , "\n")
@@ -90,7 +91,7 @@ setMethod("show", signature(object="SPR"), function(object){
   cat(" Exit Medium Index:", object@n_exit , "\n")
 })
 
-setMethod("+", signature(e1="SPR",e2="IsoLayer"), function(e1,e2){
+setMethod("+", signature(e1="SPRG",e2="IsoLayer"), function(e1,e2){
   e1@layers <- c(e1@layers,e2)
-  structure(e1,class="SPR")
+  structure(e1,class="SPRG")
 })

@@ -18,7 +18,6 @@
 
 #' An S4 class to represent a thin dielectric or metallic layer.
 #'
-#' @slot type Denotes isotropic or anistropic layer. Currently unused argument.
 #' @slot d Thickness of the layer in m
 #' @slot eps The relative permittivity of the material as a complex number
 #' 

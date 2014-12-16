@@ -18,54 +18,48 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 #ifndef SPR_H
 #define SPR_H
 
+// now only has responsibility of single value calculations, all vector based calculations to be handled by child classes
+
 #include <boost/math/complex/asin.hpp>
 #include <boost/math/constants/constants.hpp>
-#include <thread>
-#include <mutex>
 
 #include "fbfoptics.hpp"
 #include "isolayer.hpp"
 #include "anisolayer.hpp"
 
-class Spr: public Fbfoptics {
+class SPR: public Fbfoptics {
 		
 	public:
-	Spr();
-	Spr(int N);
+  
+	SPR();
 	
-	void setstartangle(double _sangle);
-	void setendangle (double _endangle);
 	void setna( double _na);
 	void setnf( double _nf);
 	void setnlayers(double _size);
 	void setlayers(std::vector<IsoLayer> _layers);
 	void setlambda(double _lambda);
+  void setangle(double _angle);
 	
-  void run();
   void sprmin();
-  void rpp_array();
-  
-	void getdata(boost::numeric::ublas::vector<double>& ret_data);
+  void sprval();
   void getmin(double& min);
+  void getval(double& val);
+  
+  protected:
+  
+  double s_pi;
+  double rpp_phia(double phia);
 	
 	private:
+  
+  int size;
 
-	void setnpts(double _N);
-	double na, nf, sangle, endangle, lambda, end_angle_rad, start_angle_rad, range_rad, s_pi;
-  
-	int N, size, cores;
-  std::mutex mu;
-  
-  void rpp_segments(int, int);
-  double rpp_phia(double phia);
+	double na, nf, lambda, min, angle, val;
   double rpp_p1(double phia);
   double rpp_p2(double phia);
 
-	boost::numeric::ublas::vector<double> data;
 	std::vector<IsoLayer> vlayers;
   
-  double min;
-
 };
 
 

@@ -17,7 +17,7 @@ FBF-Optics is free software: you can redistribute it and/or modify it
  */
 
 #include <Rcpp.h>
-#include "spr.hpp"
+#include "sprg.hpp"
 
 using namespace Rcpp;
 
@@ -39,7 +39,7 @@ void convert_layer(std::vector<IsoLayer>&vlayers, List layers, int layer_count){
   }
 }
 
-void setsim(S4 fullstack, Spr *spr_simulation){
+void setsim(S4 fullstack, SPRG *spr_simulation){
   
   int N, layer_count;
   double lambda, n_entry, n_exit, start_angle, end_angle;
@@ -69,21 +69,48 @@ void setsim(S4 fullstack, Spr *spr_simulation){
   return;
 }
 
+void setsim(S4 fullstack, SPR *spr_simulation){
+  
+  int layer_count;
+  double lambda, n_entry, n_exit, angle;
+  Rcpp::List layers;
+  
+  lambda = fullstack.slot("lambda");
+  n_entry = fullstack.slot("n_entry");
+  n_exit = fullstack.slot("n_exit");
+  angle = fullstack.slot("angle");
+  layers = fullstack.slot("layers");
+  
+  layer_count = layers.size();
+  std::vector<IsoLayer> vlayers(layer_count);   // vector of layers
+  convert_layer(vlayers,layers,layer_count);    // r to layer conversion
+  
+  spr_simulation->setnlayers(layer_count);
+  spr_simulation->setlayers(vlayers);
+
+  spr_simulation->setangle(angle); 
+
+	spr_simulation->setna(n_entry);
+	spr_simulation->setnf(n_exit);
+	spr_simulation->setlambda(lambda);
+  
+  return; 
+}
+
 // return the value of rpp only at a chosen angle for the layers specified
 // [[Rcpp::export]]
 NumericVector S4sprval(S4 fullstack, NumericVector angle){
-  int N = 1;
-  Spr *spr_simulation = new Spr(N);
+  SPR *spr_simulation = new SPR();
   setsim(fullstack, spr_simulation);
   
   double d_angle = (double)angle[0];
-  spr_simulation->setstartangle(d_angle); 
+  spr_simulation->setangle(d_angle); 
   
-  Rcpp::NumericVector y(N);             // create rcpp numeric vector for result
-  boost::numeric::ublas::vector<double> result(N); // allocation boost vector for result
+  Rcpp::NumericVector y(1);             // create rcpp numeric vector for result
+  double result;                        
   
-  spr_simulation->run();                //more error handling required probabily
-	spr_simulation->getdata(result);      // this could be more efficient with less unness code execution
+  spr_simulation->sprval();                //more error handling required probabily
+	spr_simulation->getval(result);      // this could be more efficient with less unness code execution
   
   delete spr_simulation;  
   y = result;
@@ -94,11 +121,10 @@ NumericVector S4sprval(S4 fullstack, NumericVector angle){
 // [[Rcpp::export]]
 NumericVector S4spr(S4 fullstack){
   int N = fullstack.slot("points"); 
-  Spr *spr_simulation = new Spr(N);     // create simulation with N points
+  SPRG *spr_simulation = new SPRG(N);     // create simulation with N points
+  setsim(fullstack, spr_simulation);      // set parameters
   
-  setsim(fullstack, spr_simulation);    // set parameters
-  
-  Rcpp::NumericVector y(N);             // create rcpp numeric vector for result
+  Rcpp::NumericVector y(N);               // create rcpp numeric vector for result
   boost::numeric::ublas::vector<double> result(N); // allocation boost vector for result
 
 	spr_simulation->run();  //more error handling required probabily
@@ -116,7 +142,7 @@ NumericVector S4sprmin(S4 fullstack){
   NumericVector y(1);  
   double result;
   
-  Spr *spr_simulation = new Spr(1);     // create simulation with N points
+  SPR *spr_simulation = new SPR();     // create simulation with N points
   setsim(fullstack, spr_simulation);    // set parameters
   
   spr_simulation->sprmin();  //more error handling required probabily

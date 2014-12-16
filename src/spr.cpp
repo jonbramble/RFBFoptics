@@ -18,37 +18,29 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 
 #include "spr.hpp"
 
-Spr::Spr(){
-	Spr(100);
-}
-
-Spr::Spr(int N){
-	data = boost::numeric::ublas::vector<double>(N);
+SPR::SPR(){
   s_pi = boost::math::constants::pi<double>();
-  cores = std::thread::hardware_concurrency();
-	setnpts(N);
 }
 
-void Spr::setnpts(double _N){N = _N;}
-void Spr::setna(double _na){na = _na;}
-void Spr::setstartangle(double _sangle){sangle = _sangle;}
-void Spr::setendangle (double _endangle){endangle = _endangle;}
-void Spr::setnf(double _nf){nf = _nf;}
-void Spr::setnlayers(double _size){size = _size;}
-void Spr::setlayers(std::vector<IsoLayer> _layers){ vlayers = _layers; } // must check these have been called
+void SPR::setna(double _na){na = _na;}
+void SPR::setnf(double _nf){nf = _nf;}
+void SPR::setangle(double _angle){angle = _angle;}
+void SPR::setnlayers(double _size){size = _size;}
+void SPR::setlayers(std::vector<IsoLayer> _layers){ vlayers = _layers; } // must check these have been called
 	
-void Spr::setlambda(double _lambda){lambda = _lambda;}
+void SPR::setlambda(double _lambda){lambda = _lambda;}
 
-void Spr::getdata(boost::numeric::ublas::vector<double>& ret_data){
-	ret_data=data;
+void SPR::getval(double& ret_val){ret_val=val;}
+void SPR::getmin(double& ret_min){ret_min=min;}
+
+void SPR::sprval(){
+  double phia;
+  phia = angle*(s_pi/180);
+  val = rpp_phia(phia);
 }
 
-void Spr::getmin(double& ret_min){
-  ret_min=min;
-}
-
-//this should find the spr minimum
-void Spr::sprmin(){
+//this should find the spr minimum in a small number of steps
+void SPR::sprmin(){
   
   double result, result_old, phia, crangle, step;
   int k = 0;
@@ -57,104 +49,60 @@ void Spr::sprmin(){
   double one_deg_rad = s_pi/180;
   double offset = 5.0;    // a guess at a suitable offset
   
-  phia = sangle*(s_pi/180);       //starting angle 
+  phia = angle*(s_pi/180);       //starting angle 
   crangle = asin(nf/na);          // calc the critical angle in radians
   
   if(phia < crangle + offset*one_deg_rad ) {    // offsets the starting point past the critical angle
     phia += offset*one_deg_rad;
   }
   
-  result =  Spr::rpp_phia(phia);        // starting value of rpp
+  result =  rpp_phia(phia);        // starting value of rpp
   
   do{
     result_old = result;
     step = eps*rpp_p1(phia);    // the step is proportional to the gradient - gradient descent
-    result =  Spr::rpp_phia(phia-step);
+    result =  rpp_phia(phia-step);
     phia -= step;               // update phia value
     k++;    
-  }while((abs(result - result_old) > precision) && k < 10000);
+  }while((abs(result - result_old) > precision) && k < 1000);
 
   min = phia*(180/s_pi);  // return the angle of the min in degrees in min var
   
 }
 
-double Spr::rpp_p1(double phia){
+// first derivative of the rpp values
+double SPR::rpp_p1(double phia){
  
- double h,xm1,xp1,rpp_xm1,rpp_xp1, slope, eps;
- 
- //eps = std::numeric_limits<double>::epsilon();
- 
- //h = sqrt(eps)*phia;
+ double h,xm1,xp1,rpp_xm1,rpp_xp1, m, eps;
  h = 0.001;
  xm1 = phia - h;
  xp1 = phia + h;
- rpp_xm1 = Spr::rpp_phia(xm1);
- rpp_xp1 = Spr::rpp_phia(xp1);
+ rpp_xm1 = rpp_phia(xm1);
+ rpp_xp1 = rpp_phia(xp1);
 
- slope = (-0.5*rpp_xm1 + 0.5*rpp_xp1)/h;  
+ m = (-0.5*rpp_xm1 + 0.5*rpp_xp1)/h;  
 
- return slope;
-  
+ return m; 
 }
 
-double Spr::rpp_p2(double phia){
+// second derivative of the rpp values
+double SPR::rpp_p2(double phia){
  
- double h,xm2,xp2,rpp_xm2,rpp_xp2, rpp_val, slope, eps;
- 
- //eps = std::numeric_limits<double>::epsilon();
- 
- //h = sqrt(eps)*phia;
+ double h,xm2,xp2,rpp_xm2,rpp_xp2, rpp_val, m, eps;
  h = 0.001;
  xm2 = phia - h;
  xp2 = phia + h;
- rpp_xm2 = Spr::rpp_phia(xm2);
- rpp_val = Spr::rpp_phia(phia);
- rpp_xp2 = Spr::rpp_phia(xp2);
+ rpp_xm2 = rpp_phia(xm2);
+ rpp_val = rpp_phia(phia);
+ rpp_xp2 = rpp_phia(xp2);
 
- slope = (-1*rpp_xm2 + 2*rpp_val + rpp_xp2)/pow(h,2);  
+ m = (-1*rpp_xm2 + 2*rpp_val + rpp_xp2)/pow(h,2);  
 
- return slope;
-  
+ return m;  
 }
 
-
-void Spr::rpp_array(){ 
-  std::vector<std::thread> threads;  //parallel processing part
-  
-  int parts = N / cores;
-  int extra = N % cores;
-  int start, end;
-  
-  end_angle_rad = endangle*(s_pi/180);
-  start_angle_rad = sangle*(s_pi/180);
-  range_rad = end_angle_rad-start_angle_rad;
-
-  for (int i=0; i<cores; ++i) // 1 per core:
-  {
-    start = i*parts;
-    end = (i+1)*parts;
-    if(i==cores-1)
-    	end += extra;
-    threads.push_back( std::thread(&Spr::rpp_segments, this, start, end) );
-  }
-
-  for (std::thread& t : threads) // new range-based for:
-   t.join(); // runs those threads
-}
-
-void Spr::rpp_segments(int start, int end){
-  int k; 
-  double phia, result;
-  for(k=start;k<end;k++){
-    phia = start_angle_rad+k*(range_rad/N); //input angle
-    result = Spr::rpp_phia(phia);
-    mu.lock(); // lock here for writing to data
-     data(k) = result;
-    mu.unlock();
-  }
-}
-
-double Spr::rpp_phia(double phia){
+// value of rpp at a fixed value of phia for the stack
+double SPR::rpp_phia(double phia){
   
   static const double s_pi = static_cast<double>(3.141592653589793238462643383279502884197L);
 
@@ -186,13 +134,9 @@ double Spr::rpp_phia(double phia){
 			prod_seq.push_back(Tli);
 	}
   
-	prod_seq.push_back(Lf); //add exit matrix at end
+	prod_seq.push_back(Lf);           //add exit matrix at end
 	total_trans(prod_seq, T);
 	prod_seq.clear();
 
-	return rpp(T);    // need to choose data rpp rps etc
-}
-
-void Spr::run(){
-  rpp_array();
+	return rpp(T);                    // need to choose data rpp rps etc
 }

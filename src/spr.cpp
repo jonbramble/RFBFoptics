@@ -49,17 +49,6 @@ void Spr::getmin(double& ret_min){
 
 //this should find the spr minimum
 void Spr::sprmin(){
-  // calculate the critical angle and see if we are beyond it
-  // is there an algorithm for this kind of progressing min?
-  
-  // calculate rpp for an angle
-  // if it is falling continue
-  // when value increases, check local 2nd derivative, should be above zero for minimum
-  // return min value
-  
-  // could make it do - min searching with forward a back angle iterations with finer steps
-  
-  // hard to parallelize 
   
   double result, result_old, phia, crangle, step;
   int k = 0;
@@ -69,7 +58,7 @@ void Spr::sprmin(){
   double offset = 5.0;    // a guess at a suitable offset
   
   phia = sangle*(s_pi/180);       //starting angle 
-  crangle = asin(nf/na);           // calc the critical angle in radians
+  crangle = asin(nf/na);          // calc the critical angle in radians
   
   if(phia < crangle + offset*one_deg_rad ) {    // offsets the starting point past the critical angle
     phia += offset*one_deg_rad;

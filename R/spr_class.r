@@ -112,6 +112,14 @@ setMethod("initialize",signature="SPRG",function(.Object){
   value
 })
 
+setMethod("show", signature(object="SPR"), function(object){
+  cat(" SPR base data \n")   
+  cat(" Wavelength:", object@lambda , "\n")
+  cat(" Angle:", object@angle , "\n")
+  cat(" Entry Medium Index:", object@n_entry , "\n")
+  cat(" Exit Medium Index:", object@n_exit , "\n")
+})
+
 setMethod("show", signature(object="SPRG"), function(object){
   cat(" SPR base data \n")   
   cat(" Number of data points:", object@points , "\n")

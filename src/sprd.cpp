@@ -41,9 +41,8 @@ void SPRD::rpp_array(){
   int extra = N % cores;
   int start, end;
   
-  // create ranges for the calcuations here
-  drange = dend - dstart;
-  
+  drange = dend - dstart;   // create ranges for the calcuations here
+ 
   for (int i=0; i<cores; ++i) // 1 per core:
   {
     start = i*parts;
@@ -63,8 +62,8 @@ void SPRD::rpp_segments(int start, int end){
   phia = angle*(s_pi/180); 
   for(k=start;k<end;k++){
     d = dstart+k*(drange/N);
-    result = rpp_phia(phia,d);  // need to feed in the layer information here
-    mu.lock(); // lock here for writing to data
+    result = rpp_phia(phia,d);  
+    mu.lock();                  // lock here for writing to data
      data(k) = result;
     mu.unlock();
   }

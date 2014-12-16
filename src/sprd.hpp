@@ -33,7 +33,7 @@ class SPRD : public SPR {
   
     int N, cores;
     std::mutex mu;
-    double angle, dstart, dend, drange;   // get this from the single fitted layer
+    double dstart, dend, drange;   // get this from the single fitted layer
   
     void run();
     void getdata(boost::numeric::ublas::vector<double>& ret_data);

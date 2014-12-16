@@ -25,6 +25,7 @@ SPR::SPR(){
 void SPR::setna(double _na){na = _na;}
 void SPR::setnf(double _nf){nf = _nf;}
 void SPR::setangle(double _angle){angle = _angle;}
+double SPR::getangle(){return angle;}
 void SPR::setlambda(double _lambda){lambda = _lambda;}
 void SPR::setnlayers(double _size){size = _size;}
 void SPR::setlayers(std::vector<IsoLayer> _layers){ vlayers = _layers; } // must check these have been called
@@ -139,7 +140,8 @@ double SPR::rpp_phia(double phia){
 	return rpp(T);                    // need to choose data rpp rps etc
 }
 
-// value of rpp at a fixed value of phia for the stack
+// value of rpp at a fixed value of phia for the stack with a value for a fitable layer
+// could be improved by precalcuating the variables that are fixed with angle  
 double SPR::rpp_phia(double phia, double d){
   
   matrix<complex<double> > T(4,4), ILa(4,4), Lf(4,4), Tli(4,4);
@@ -151,7 +153,7 @@ double SPR::rpp_phia(double phia, double d){
 
 	double cphia, eta, dval;
 	double k0 = (2*s_pi)/lambda; // laser wavevector
-	
+
 	cphia = cos(phia); 
 	eta = na*sin(phia); // x comp of wavevector
 	zcphif2 = complex<double>(1-pow((na/nf)*sin(phia),2),0);  // this always picks the correct sector

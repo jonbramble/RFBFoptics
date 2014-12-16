@@ -39,6 +39,7 @@ class SPR: public Fbfoptics {
 		  void setlayers(std::vector<IsoLayer> _layers);
 		  void setlambda(double _lambda);
 		  void setangle(double _angle);
+      double getangle();
 		
 		  void sprmin();
 		  void sprval();
@@ -47,7 +48,7 @@ class SPR: public Fbfoptics {
 		
 		protected:
 		
-		  double s_pi;
+		  double s_pi, angle;
 		  double rpp_phia(double phia);
       double rpp_phia(double phia, double d);
 		
@@ -55,7 +56,7 @@ class SPR: public Fbfoptics {
 		
 		  int size;
 		
-		  double na, nf, lambda, min, angle, val;
+		  double na, nf, lambda, min, val;
 		  double rpp_p1(double phia);
 		  double rpp_p2(double phia);
 		

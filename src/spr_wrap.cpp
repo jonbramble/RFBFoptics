@@ -65,7 +65,6 @@ void setsim(S4 fullstack, SPRD *spr_simulation){
   n_entry = fullstack.slot("n_entry");
   n_exit = fullstack.slot("n_exit");
   angle = fullstack.slot("angle");
-  std::cout << "angle " << angle << std::endl;
   layers = fullstack.slot("layers");
   
   layer_count = layers.size();
@@ -75,7 +74,6 @@ void setsim(S4 fullstack, SPRD *spr_simulation){
    for(int i=0;i<layer_count;i++)// loop over layers -swaps d data into sprd structure
    {
      if(vlayers[i].getfitd()){
-       //std::cout << "vlayer " << i << std::endl;
        dstart = vlayers[i].getdstart();
        dend = vlayers[i].getdend();
        spr_simulation->setdstart(dstart);
@@ -88,7 +86,6 @@ void setsim(S4 fullstack, SPRD *spr_simulation){
   spr_simulation->setlayers(vlayers);
 
   spr_simulation->setangle(angle); 
-
   spr_simulation->setna(n_entry);
 	spr_simulation->setnf(n_exit);
 	spr_simulation->setlambda(lambda);

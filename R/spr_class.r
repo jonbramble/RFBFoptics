@@ -156,10 +156,6 @@ setMethod("show", signature(object="IsoLayer"),function(object){
   cat(" Isotropic Layer data \n")
 })
 
-setMethod("show", signature(object="DIsoLayer"),function(object){
-  cat(" Varible Thickness Isotropic Layer data \n")
-})
-
 setMethod("show", signature(object="SPR"), function(object){
   cat(" SPR base data \n")   
   cat(" Wavelength:", object@lambda , "\n")
@@ -186,11 +182,6 @@ setMethod("show", signature(object="SPRG"), function(object){
   cat(" Entry Medium Index:", object@n_entry , "\n")
   cat(" Exit Medium Index:", object@n_exit , "\n")
 })
-
-#setMethod("+", signature(e1="SPRD",e2="DIsoLayer"), function(e1,e2){
-#  e1@layers <- c(e1@layers,e2)
-#  structure(e1,class="SPRD")
-#})
 
 setMethod("+", signature(e1="SPRD",e2="IsoLayer"), function(e1,e2){
   e1@layers <- c(e1@layers,e2)

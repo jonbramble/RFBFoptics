@@ -1,8 +1,8 @@
 /*
- * fbfoptics.hpp
+ * fbfoptics.h
  * Copyright (C) Jonathan Bramble 2011
  * 
-FBF-Optics is free software: you can redistribute it and/or modify it
+ * FBF-Optics is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -30,9 +30,9 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 #include <complex>
 #include <algorithm>
 #include <thread>
-#include "complex_methods.hpp"
-#include "expm.hpp"
-#include "expm_eigen.hpp"
+#include "complex_methods.h"
+#include "expm.h"
+#include "expm_eigen.h"
 
 
 using namespace boost::numeric::ublas;
@@ -62,8 +62,8 @@ protected:
 	void gtmiso(const complex<double>,const double,const double,const double, matrix<complex<double> >&);
 	/// The general transfer matrix for anisotropic layers
 	void gtm(const matrix<double>& Delta, const double k0, const double h, matrix<complex<double> >& T);
-  /// The general transfer matrix for anisotropic layers with eigenvector method
-  void gtm_eig(const matrix<double>& Delta, const double k0, const double h, matrix<complex<double> >& T);
+    /// The general transfer matrix for anisotropic layers with eigenvector method
+    void gtm_eig(const matrix<double>& Delta, const double k0, const double h, matrix<complex<double> >& T);
 	/// The differential propagation matrix Delta
 	void diffpropmat(const matrix<double> ep, const double eta, matrix<double>& Delta);
 	/// Calculates from the total transfer matrix the rpp reflectivity co-efficient

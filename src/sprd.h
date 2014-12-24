@@ -1,8 +1,8 @@
 /*
- * sprd.hpp
+ * sprd.h
  * Copyright (C) Jonathan Bramble 2014
  * 
-FBF-Optics is free software: you can redistribute it and/or modify it
+ * FBF-Optics is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -21,7 +21,7 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 
 // vector calculations over thickness of a layer
 
-#include "spr.hpp"
+#include "spr.h"
 #include <thread>
 #include <mutex>
 

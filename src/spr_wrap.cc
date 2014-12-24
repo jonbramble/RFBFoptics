@@ -1,8 +1,8 @@
 /*
- * spr_wrap.ccp
+ * spr_wrap.cc
  * Copyright (C) Jonathan Bramble 2011
  * 
-FBF-Optics is free software: you can redistribute it and/or modify it
+ * FBF-Optics is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -17,8 +17,8 @@ FBF-Optics is free software: you can redistribute it and/or modify it
  */
 
 #include <Rcpp.h>
-#include "sprg.hpp"
-#include "sprd.hpp"
+#include "sprg.h"
+#include "sprd.h"
 
 using namespace Rcpp;
 

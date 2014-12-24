@@ -1,8 +1,8 @@
 /*
- * anisolayer.hpp
+ * anisolayer.h
  * Copyright (C) Jonathan Bramble 2011
  * 
-FBF-Optics is free software: you can redistribute it and/or modify it
+ * FBF-Optics is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -19,7 +19,7 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 #ifndef ANISOLAYER_H_
 #define ANISOLAYER_H_
 
-#include "layer.hpp"
+#include "layer.h"
 
 class AnisoLayer : public Layer {
   

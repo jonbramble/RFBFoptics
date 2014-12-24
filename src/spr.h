@@ -1,8 +1,8 @@
 /*
- * spr.hpp
+ * spr.h
  * Copyright (C) Jonathan Bramble 2011
  * 
-FBF-Optics is free software: you can redistribute it and/or modify it
+ * FBF-Optics is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -23,9 +23,9 @@ FBF-Optics is free software: you can redistribute it and/or modify it
 #include <boost/math/complex/asin.hpp>
 #include <boost/math/constants/constants.hpp>
 
-#include "fbfoptics.hpp"
-#include "isolayer.hpp"
-#include "anisolayer.hpp"
+#include "fbfoptics.h"
+#include "isolayer.h"
+#include "anisolayer.h"
 
 class SPR: public Fbfoptics {
 		

@@ -2,7 +2,7 @@
  * sprd.cc
  * Copyright (C) Jonathan Bramble 2014
  * 
-FBF-Optics is free software: you can redistribute it and/or modify it
+ * FBF-Optics is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -16,7 +16,7 @@ FBF-Optics is free software: you can redistribute it and/or modify it
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "sprd.hpp"
+#include "sprd.h"
 
 SPRD::SPRD(int N){
   data = boost::numeric::ublas::vector<double>(N);

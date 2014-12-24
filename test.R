@@ -1,5 +1,5 @@
 library(FBFoptics)
-library(microbenchmark)
+#library(microbenchmark)
 sprg <- SPRG()  #setup an SPR simulations
 sprg@points = 1000
 sprg@end_angle = 60
@@ -35,3 +35,4 @@ dstack <- sprd + au + sam + protein
 rpp <- curve(dstack)
 
 plot(rpp,type='l')
+

@@ -1,8 +1,8 @@
 library(FBFoptics)
 #library(microbenchmark)
 sprg <- SPRG()  #setup an SPR simulations
-sprg@points = 1000
-sprg@end_angle = 60
+points(sprg) <- 1000
+end_angle(sprg) <- 60
 
 #create some isotropic layers
 au <- IsoLayer(d=49e-9,eps=-11+1.01i)
@@ -17,7 +17,8 @@ rpp <- curve(stack)
 
 # for single points use SPR
 spr <- SPR() 
-spr@angle = 54
+angle(spr) <- 51
+validObject(spr)
 stack_spr <- spr + au + sam
 
 min_angle <- sprmin(stack_spr)
@@ -27,8 +28,8 @@ v <- rppval(stack_spr,min_angle)
 plot(rpp[,1],rpp[,2],type="l",xlab="Angle",ylab="rpp")
 
 sprd <- SPRD()  #setup an SPR simulations variation over d
-sprd@points = 5000
-sprd@angle = 52
+points(sprd) <- 8000
+angle(sprd) <- 52
 protein <- IsoLayer(fitd=TRUE,dstart=0,dend=2e-9,eps=1.45+0i)
 
 dstack <- sprd + au + sam + protein

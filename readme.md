@@ -18,7 +18,7 @@
 # Notes
 
 I used c++11 code here, so windows users are out of luck compiling this with Rtools. 
-gcc needs to support c++11 on your platform. I am using v 4.9.
+gcc needs to support c++11 on your platform. I am using v4.9.
 
 TODO: rewrite c++11 code so that it compiles on windows.
 
@@ -32,16 +32,18 @@ SPR is for single values of reflectivity at a fixed angle and also spr minimum s
 
 SPRG is for a general curve and uses parallel processing
 
-SPRD is for finding the reflectivity with a layer which has a variable thickness parameter
+SPRD is for finding the reflectivity with a layer which has a variable thickness parameter and uses parallel processing
 
 # Usage
 
+### Simple Curve
 For a simple curve with a starting angle of 40 and ending angle of 60, with a prism (entry) index of 1.85 and exit index of 1.33
 
 ```
 library(FBFoptics)  #load the library
 sprg <- SPRG()  # setup a SPR simulations
 points(sprg) <- 1000  #set the number of points
+
 start_angle(sprg) <- 40  #set the end angle
 end_angle(sprg) <- 60  #set the end angle
 n_entry(sprg)
@@ -58,6 +60,28 @@ rpp <- curve(stack)
 plot(rpp[,1],rpp[,2],type="l",xlab="Angle",ylab="rpp") 
 ```
 
+### Spot Reflectivities
+```
+spr <- SPR() 
+angle(spr) <- 51
+validObject(spr)
+stack_spr <- spr + au + sam
 
+min_angle <- sprmin(stack_spr)
+v <- rppval(stack_spr,min_angle)
+```
+
+### Thickness variation
+```
+sprd <- SPRD()  #setup an SPR simulations variation over d
+points(sprd) <- 8000
+angle(sprd) <- 52
+protein <- IsoLayer(fitd=TRUE,dstart=0,dend=2e-9,eps=1.45+0i)  #setup the range of values here
+
+dstack <- sprd + au + sam + protein
+rpp <- curve(dstack)
+
+plot(rpp,type='l')
+```
 
 

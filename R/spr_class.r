@@ -31,12 +31,12 @@ SPR <- setClass("SPR",
                   angle="numeric",
                   layers="list"
                 ),
-                prototype(lambda=633e-9,n_entry=1.85,n_exit=1.33,angle=70)
+                prototype(lambda=633e-9,n_entry=1.85,n_exit=1.33,angle=55)
 )
 
 validitySPR <- function(object){
   retval <- NULL
-  if(object@ngle > 90) {
+  if(object@angle > 90) {
     retval <- c(retval,"angle is greater than 90")
   }
   if ( is.null(retval)) return (TRUE)
@@ -57,8 +57,6 @@ setReplaceMethod("angle","SPR", function(x,value) {x@angle <- value; validObject
 setReplaceMethod("n_entry","SPR", function(x,value) {x@n_entry <- value; validObject(x); x})
 setReplaceMethod("n_exit","SPR", function(x,value) {x@n_exit <- value; validObject(x); x})
 setReplaceMethod("lambda","SPR", function(x,value) {x@lambda <- value; validObject(x); x})
-
-
 
 setGeneric("curve", function(object) {standardGeneric("curve")})
 setGeneric("sprmin", function(object){standardGeneric("sprmin")})

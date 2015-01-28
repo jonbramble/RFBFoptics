@@ -50,7 +50,14 @@ class SPR: public Fbfoptics {
 		
 		  double s_pi, angle;
 		  double rpp_phia(double phia);
-      double rpp_phia(double phia, double d);
+      double rpp_phia(double phia, double d);  // special overload for thickness fitting
+      
+      double rps_phia(double phia);
+      double rsp_phia(double phia);
+      double rss_phia(double phia);
+      
+      //TODO: Add methods to calculate reflectivity parameters for an arbitary chain of polarisers
+      // possibly extract out into new class definition
 		
 		private:
 		
@@ -59,6 +66,7 @@ class SPR: public Fbfoptics {
 		  double na, nf, lambda, min, val;
 		  double rpp_p1(double phia);
 		  double rpp_p2(double phia);
+      MatrixZ transfer_matrix(double phia);
 		
 		  std::vector<IsoLayer> vlayers;
   

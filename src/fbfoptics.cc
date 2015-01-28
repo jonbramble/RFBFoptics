@@ -29,7 +29,7 @@ Fbfoptics::~Fbfoptics(){
 // na refractive index of the ambient
 // cphia cosine of the entrance angle
 // ILa the reference to the entrance matrix
-void Fbfoptics::incmat(const double na, const double cphia, matrix<complex<double> >& ILa){
+void Fbfoptics::incmat(const double na, const double cphia, MatrixZ& ILa){
 	ILa(0,0) = complex<double>(0,0);
 	ILa(0,1) = complex<double>(0,0);
 	ILa(0,2) = complex<double>(0.5,0);
@@ -55,7 +55,7 @@ void Fbfoptics::incmat(const double na, const double cphia, matrix<complex<doubl
 // na refractive index of the exit media, must be real
 // cphia cosine of the exit angle
 // Lf the reference to the exit matrix
-void Fbfoptics::extmat(const double nf, const complex<double> cphif, matrix<complex<double> >& Lf)
+void Fbfoptics::extmat(const double nf, const complex<double> cphif, MatrixZ& Lf)
 {
 	complex<double> znf= complex<double>(nf,0.0);
 	complex<double> zk = znf*cphif;
@@ -84,10 +84,10 @@ void Fbfoptics::extmat(const double nf, const complex<double> cphif, matrix<comp
 //Calculate the dielectric tensor representation for the layer
 //eav 
 
-void Fbfoptics::dietens(double eav, double dem, double S, double stheta, double ctheta, double sphi, double cphi, matrix<double>& ep)
+void Fbfoptics::dietens(double eav, double dem, double S, double stheta, double ctheta, double sphi, double cphi, MatrixD& ep)
 {
-	matrix<double> A (3,3), ea(3,3), Ap(3,3), inverse(3,3);
-	matrix<double> epsilon (3,3);
+	MatrixD A (3,3), ea(3,3), Ap(3,3), inverse(3,3);
+	MatrixD epsilon (3,3);
 	
 	A(0,0) = cphi*ctheta;
 	A(0,1) = sphi;
@@ -106,10 +106,10 @@ void Fbfoptics::dietens(double eav, double dem, double S, double stheta, double 
 	ea = prod(A,epsilon);
 
 	// move to external implementation for clarity
-
+  using namespace boost::numeric::ublas;
 	//inverse http://www.crystalclearsoftware.com/cgi-bin/boost_wiki/wiki.pl?LU_Matrix_Inversion
 	typedef permutation_matrix<std::size_t> pmatrix;
- 	matrix<double> wc(A); // create a working copy of the input
+ 	MatrixD wc(A); // create a working copy of the input
  	pmatrix pm(wc.size1()); // create a permutation matrix for the LU-factorization
  	int res = lu_factorize(wc,pm); // perform LU-factorization
         //if( res != 0 ) return false;
@@ -120,7 +120,7 @@ void Fbfoptics::dietens(double eav, double dem, double S, double stheta, double 
 }
 
 //Calculate the general transfer matrix for isotropic materials
-void Fbfoptics::gtmiso(const complex<double> eiso, const double k0, const double eta, const double diso, matrix<complex<double> >& Tiso)
+void Fbfoptics::gtmiso(const complex<double> eiso, const double k0, const double eta, const double diso, MatrixZ& Tiso)
 {
 	double eta2 = pow(eta,2);
 	complex<double> rb, za, qiso, zb, zc, zd, carg, sarg;
@@ -141,7 +141,7 @@ void Fbfoptics::gtmiso(const complex<double> eiso, const double k0, const double
 	static const complex<double> i = complex<double>(0.0,1.0);
 	static const complex<double> one = complex<double>(1.0,0.0);
 	
-	matrix<complex<double> > T(4,4);
+  MatrixZ T(4,4);
 
 	T(0,2) = zero;
 	T(0,3) = zero;
@@ -166,7 +166,7 @@ void Fbfoptics::gtmiso(const complex<double> eiso, const double k0, const double
 }
 
 //Calculate the differential propagation matrix
-void Fbfoptics::diffpropmat(const matrix<double> ep, const double eta, matrix<double>& Delta)
+void Fbfoptics::diffpropmat(const MatrixD ep, const double eta, MatrixD& Delta)
 {
 	double zb[10];
 	double eta2 = pow(eta,2);
@@ -202,7 +202,7 @@ void Fbfoptics::diffpropmat(const matrix<double> ep, const double eta, matrix<do
 }
 
 //Calculate the p-polarised reflectivity
-double Fbfoptics::rpp(const matrix<complex<double> >& M)
+double Fbfoptics::rpp(const MatrixZ& M)
 {
 	complex<double> zr;
 	zr = ((M(0,0)*M(3,2))-(M(3,0)*M(0,2)))/((M(0,0)*M(2,2))-(M(0,2)*M(2,0)));
@@ -210,12 +210,40 @@ double Fbfoptics::rpp(const matrix<complex<double> >& M)
 	return r;
 }
 
+double Fbfoptics::rps(const MatrixZ& M)
+{
+  complex<double> zr;
+  //zr = ((M(0,0)*M(3,2))-(M(3,0)*M(0,2)))/((M(0,0)*M(2,2))-(M(0,2)*M(2,0)));
+  zr = complex<double> (0,0); //PLACEHOLDER
+  double r = pow(abs(zr),2);
+  return r;
+}
+
+double Fbfoptics::rsp(const MatrixZ& M)
+{
+  complex<double> zr;
+  //zr = ((M(0,0)*M(3,2))-(M(3,0)*M(0,2)))/((M(0,0)*M(2,2))-(M(0,2)*M(2,0)));
+  zr = complex<double> (0,0); //PLACEHOLDER
+  double r = pow(abs(zr),2);
+  return r;
+}
+
+double Fbfoptics::rss(const MatrixZ& M)
+{
+  complex<double> zr;
+  //zr = ((M(0,0)*M(3,2))-(M(3,0)*M(0,2)))/((M(0,0)*M(2,2))-(M(0,2)*M(2,0)));
+  zr = complex<double> (0,0); //PLACEHOLDER
+  double r = pow(abs(zr),2);
+  return r;
+}
+
 //TODO: Add all the other reflectivities and transmissions
+//TODO: FOR phase modified configuration this might be more complex
 
 //Calculate the general transfer matrix
-void Fbfoptics::gtm(const matrix<double>& Delta, const double k0, const double h, matrix<complex<double> >& T)
+void Fbfoptics::gtm(const MatrixD& Delta, const double k0, const double h, MatrixZ& T)
 {
-	matrix<complex<double> > Tw = Delta;
+	MatrixZ Tw = Delta;
 	for (unsigned i = 0; i < 4; ++ i)
         	for (unsigned j = 0; j < 4; ++ j)
             		Tw(i,j)=complex<double>(0,-h*k0*Delta(i,j));
@@ -224,9 +252,9 @@ void Fbfoptics::gtm(const matrix<double>& Delta, const double k0, const double h
 }
 
 //Calculate the general transfer matrix
-void Fbfoptics::gtm_eig(const matrix<double>& Delta, const double k0, const double h, matrix<complex<double> >& T){
+void Fbfoptics::gtm_eig(const MatrixD& Delta, const double k0, const double h, MatrixZ& T){
   //here we need an eigenvalue solution for the matrix exponential becuase this contains physically relavent information
-  matrix<complex<double> > Tw = Delta;
+  MatrixZ Tw = Delta;
   for (unsigned i = 0; i < 4; ++ i)
         	for (unsigned j = 0; j < 4; ++ j)
             		Tw(i,j)=complex<double>(0,-h*k0*Delta(i,j));
@@ -235,11 +263,11 @@ void Fbfoptics::gtm_eig(const matrix<double>& Delta, const double k0, const doub
 }
 
 //Calculate the total transfer matrix
-void Fbfoptics::total_trans(std::vector<matrix<complex<double> > > prod_seq, matrix<complex<double> >& T)
+void Fbfoptics::total_trans(std::vector<MatrixZ> prod_seq, MatrixZ& T)
 {
-	std::vector<boost::numeric::ublas::matrix<complex<double> > >::reverse_iterator mat_it;
-	matrix<complex<double> > Temp(4,4);
-	identity_matrix<complex<double> > Id(4,4); 
+	std::vector<MatrixZ>::reverse_iterator mat_it;
+	MatrixZ Temp(4,4);
+	boost::numeric::ublas::identity_matrix<complex<double> > Id(4,4); 
 
 	Temp = Id; // resets temp
 

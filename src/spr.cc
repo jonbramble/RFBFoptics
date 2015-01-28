@@ -102,13 +102,12 @@ double SPR::rpp_p2(double phia){
  return m;  
 }
 
-// value of rpp at a fixed value of phia for the stack
-double SPR::rpp_phia(double phia){
+MatrixZ SPR::transfer_matrix(double phia){
   
-	matrix<complex<double> > T(4,4), ILa(4,4), Lf(4,4), Tli(4,4);
-  matrix<double> ep(4,4), Delta(4,4);
-	identity_matrix<complex<double> > Id(4,4);
-  std::vector<boost::numeric::ublas::matrix<complex<double> > > prod_seq;
+  MatrixZ T(4,4), ILa(4,4), Lf(4,4), Tli(4,4);
+  MatrixD ep(4,4), Delta(4,4);
+  boost::numeric::ublas::identity_matrix<complex<double> > Id(4,4);
+  std::vector<MatrixZ> prod_seq;
   
 	complex<double>	result, zcphif2, phif, cphif, eps;
 
@@ -136,18 +135,39 @@ double SPR::rpp_phia(double phia){
 	prod_seq.push_back(Lf);           //add exit matrix at end
 	total_trans(prod_seq, T);
 	prod_seq.clear();
+  
+  return T;
+}
 
-	return rpp(T);                    // need to choose data rpp rps etc
+// value of rpp at a fixed value of phia for the stack
+double SPR::rpp_phia(double phia){
+	return rpp(transfer_matrix(phia)); // need to choose data rpp rps etc              
+}
+
+// value of rps at a fixed value of phia for the stack
+double SPR::rps_phia(double phia){
+  return rps(transfer_matrix(phia));          
+}
+
+// value of rsp at a fixed value of phia for the stack
+double SPR::rsp_phia(double phia){
+  return rsp(transfer_matrix(phia));         
+}
+
+// value of rss at a fixed value of phia for the stack
+double SPR::rss_phia(double phia){
+  return rss(transfer_matrix(phia));            
 }
 
 // value of rpp at a fixed value of phia for the stack with a value for a fitable layer
 // could be improved by precalcuating the variables that are fixed with angle  
+// could extract the main part out again for other calcs
 double SPR::rpp_phia(double phia, double d){
   
-  matrix<complex<double> > T(4,4), ILa(4,4), Lf(4,4), Tli(4,4);
-  matrix<double> ep(4,4), Delta(4,4);
-  identity_matrix<complex<double> > Id(4,4);
-  std::vector<boost::numeric::ublas::matrix<complex<double> > > prod_seq;
+  MatrixZ T(4,4), ILa(4,4), Lf(4,4), Tli(4,4);
+  MatrixD ep(4,4), Delta(4,4);
+  boost::numeric::ublas::identity_matrix<complex<double> > Id(4,4);
+  std::vector<MatrixZ> prod_seq;
   
 	complex<double>	result, zcphif2, phif, cphif, eps;
 

@@ -32,11 +32,15 @@
 #include <thread>
 #include "complex_methods.h"
 #include "expm.h"
-#include "expm_eigen.h"
+#include "expm_eigen.h"  // not yet implemented
 
 
-using namespace boost::numeric::ublas;
+//using namespace boost::numeric::ublas;
 using namespace std;
+
+typedef boost::numeric::ublas::matrix<complex<double> > MatrixZ;  // following the scheme of blas
+typedef boost::numeric::ublas::matrix<double> MatrixD;
+
 /*
  * @file fbfoptics.hpp
  * @brief All the code required to do 4x4 optics on stratified media. Following the methods of Berreman. Can be used for both isotropic and aniostropic layers, but entry and exit media must be isotropic. isotropic layers tested, but aniostropic not yet tested
@@ -53,23 +57,29 @@ public:
 
 protected:
 	/// The entrance matrix
-	void incmat(const double, const double, matrix<complex<double> >&);
+	void incmat(const double, const double, MatrixZ&);
 	/// The exit matrix
-	void extmat(const double, const complex<double>, matrix<complex<double> >&);
+	void extmat(const double, const complex<double>, MatrixZ&);
 	/// The dielectric tensor
-	void dietens(const double,const double,const double,const double,const double,const double, const double, matrix<double>&);
+	void dietens(const double,const double,const double,const double,const double,const double, const double, MatrixD&);
 	/// The general transfer matrix for isotropic layers
-	void gtmiso(const complex<double>,const double,const double,const double, matrix<complex<double> >&);
+	void gtmiso(const complex<double>,const double,const double,const double, MatrixZ&);
 	/// The general transfer matrix for anisotropic layers
-	void gtm(const matrix<double>& Delta, const double k0, const double h, matrix<complex<double> >& T);
-    /// The general transfer matrix for anisotropic layers with eigenvector method
-    void gtm_eig(const matrix<double>& Delta, const double k0, const double h, matrix<complex<double> >& T);
+	void gtm(const MatrixD&, const double k0, const double h, MatrixZ&);
+  /// The general transfer matrix for anisotropic layers with eigenvector method
+  void gtm_eig(const MatrixD&, const double k0, const double h, MatrixZ&);
 	/// The differential propagation matrix Delta
-	void diffpropmat(const matrix<double> ep, const double eta, matrix<double>& Delta);
+	void diffpropmat(const MatrixD, const double, MatrixD&);
 	/// Calculates from the total transfer matrix the rpp reflectivity co-efficient
-	double rpp(const matrix<complex<double> >& M);
+	double rpp(const MatrixZ&);
+  /// Calculates from the total transfer matrix the rps reflectivity co-efficient
+  double rps(const MatrixZ&);
+  /// Calculates from the total transfer matrix the rsp reflectivity co-efficient
+  double rsp(const MatrixZ&);
+    /// Calculates from the total transfer matrix the rss reflectivity co-efficient
+  double rss(const MatrixZ&);
 	/// Returns the product of the sequence of transfer matricies
-	void total_trans(std::vector<boost::numeric::ublas::matrix<complex<double> > > prod_seq, matrix<complex<double> >& T);
+	void total_trans(std::vector<MatrixZ> prod_seq, MatrixZ&);
 };
 
 #endif /* FBFOPTICS_H_ */

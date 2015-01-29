@@ -231,8 +231,7 @@ double Fbfoptics::rsp(const MatrixZ& M)
 double Fbfoptics::rss(const MatrixZ& M)
 {
   complex<double> zr;
-  //zr = ((M(0,0)*M(3,2))-(M(3,0)*M(0,2)))/((M(0,0)*M(2,2))-(M(0,2)*M(2,0)));
-  zr = complex<double> (0,0); //PLACEHOLDER
+  zr = ((M(1,0)*M(2,2))-(M(1,2)*M(2,0)))/((M(0,0)*M(2,2))-(M(0,2)*M(2,0)));
   double r = pow(abs(zr),2);
   return r;
 }

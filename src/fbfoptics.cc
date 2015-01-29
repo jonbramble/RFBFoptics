@@ -202,38 +202,37 @@ void Fbfoptics::diffpropmat(const MatrixD ep, const double eta, MatrixD& Delta)
 }
 
 //Calculate the p-polarised reflectivity
-double Fbfoptics::rpp(const MatrixZ& M)
+complex<double> Fbfoptics::rpp(const MatrixZ& M)
 {
 	complex<double> zr;
 	zr = ((M(0,0)*M(3,2))-(M(3,0)*M(0,2)))/((M(0,0)*M(2,2))-(M(0,2)*M(2,0)));
-	double r = pow(abs(zr),2);
-	return r;
+	return zr;
 }
 
-double Fbfoptics::rps(const MatrixZ& M)
+complex<double> Fbfoptics::rps(const MatrixZ& M)
 {
   complex<double> zr;
-  //zr = ((M(0,0)*M(3,2))-(M(3,0)*M(0,2)))/((M(0,0)*M(2,2))-(M(0,2)*M(2,0)));
-  zr = complex<double> (0,0); //PLACEHOLDER
-  double r = pow(abs(zr),2);
-  return r;
+  zr = ((M(1,2)*M(0,0))-(M(1,0)*M(0,2)))/((M(0,0)*M(2,2))-(M(0,2)*M(2,0)));
+  return zr;
 }
 
-double Fbfoptics::rsp(const MatrixZ& M)
+complex<double> Fbfoptics::rsp(const MatrixZ& M)
 {
   complex<double> zr;
-  //zr = ((M(0,0)*M(3,2))-(M(3,0)*M(0,2)))/((M(0,0)*M(2,2))-(M(0,2)*M(2,0)));
-  zr = complex<double> (0,0); //PLACEHOLDER
-  double r = pow(abs(zr),2);
-  return r;
+  zr = ((M(3,2)*M(2,1))-(M(2,2)*M(3,0)))/((M(0,2)*M(2,0))-(M(0,0)*M(2,2)));
+  return zr;
 }
 
-double Fbfoptics::rss(const MatrixZ& M)
+complex<double> Fbfoptics::rss(const MatrixZ& M)
 {
   complex<double> zr;
   zr = ((M(1,0)*M(2,2))-(M(1,2)*M(2,0)))/((M(0,0)*M(2,2))-(M(0,2)*M(2,0)));
-  double r = pow(abs(zr),2);
-  return r;
+  return zr;
+}
+
+double Fbfoptics::Rpp(const MatrixZ& M)
+{
+  
 }
 
 //TODO: Add all the other reflectivities and transmissions

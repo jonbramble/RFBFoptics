@@ -71,13 +71,13 @@ protected:
 	/// The differential propagation matrix Delta
 	void diffpropmat(const MatrixD, const double, MatrixD&);
 	/// Calculates from the total transfer matrix the rpp reflectivity co-efficient
-	double rpp(const MatrixZ&);
+	complex<double> rpp(const MatrixZ&);
   /// Calculates from the total transfer matrix the rps reflectivity co-efficient
-  double rps(const MatrixZ&);
+  complex<double> rps(const MatrixZ&);
   /// Calculates from the total transfer matrix the rsp reflectivity co-efficient
-  double rsp(const MatrixZ&);
+  complex<double> rsp(const MatrixZ&);
     /// Calculates from the total transfer matrix the rss reflectivity co-efficient
-  double rss(const MatrixZ&);
+  complex<double> rss(const MatrixZ&);
 	/// Returns the product of the sequence of transfer matricies
 	void total_trans(std::vector<MatrixZ> prod_seq, MatrixZ&);
 };

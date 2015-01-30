@@ -232,7 +232,11 @@ complex<double> Fbfoptics::rss(const MatrixZ& M)
 
 double Fbfoptics::Rpp(const MatrixZ& M)
 {
-  
+  complex<double> y,z;
+  y = rpp(M);
+  z = rss(M);
+  //return abs(y/z);  // guessed here
+  return abs(y/z);
 }
 
 //TODO: Add all the other reflectivities and transmissions

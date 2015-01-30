@@ -36,7 +36,7 @@ void SPR::getmin(double& ret_min){ret_min=min;}
 void SPR::sprval(){
   double phia;
   phia = angle*(s_pi/180);
-  val = rpp_phia(phia);
+  val = Rpp_phia(phia);
 }
 
 //this should find the spr minimum in a small number of steps
@@ -57,12 +57,12 @@ void SPR::sprmin(){
     phia += offset*one_deg_rad;
   }
   
-  result =  rpp_phia(phia);        // starting value of rpp
+  result =  Rpp_phia(phia);        // starting value of rpp
   
   do{
     result_old = result;
     step = eps*rpp_p1(phia);    // the step is proportional to the gradient - gradient descent
-    result =  rpp_phia(phia-step);
+    result =  Rpp_phia(phia-step);
     phia -= step;               // update phia value
     k++;    
   }while((abs(result - result_old) > precision) && k < limit);   // limit the number of steps
@@ -78,8 +78,8 @@ double SPR::rpp_p1(double phia){
  h = 0.001;
  xm1 = phia - h;
  xp1 = phia + h;
- rpp_xm1 = rpp_phia(xm1);
- rpp_xp1 = rpp_phia(xp1);
+ rpp_xm1 = Rpp_phia(xm1);
+ rpp_xp1 = Rpp_phia(xp1);
 
  m = (-0.5*rpp_xm1 + 0.5*rpp_xp1)/h;  
 
@@ -93,9 +93,9 @@ double SPR::rpp_p2(double phia){
  h = 0.001;
  xm2 = phia - h;
  xp2 = phia + h;
- rpp_xm2 = rpp_phia(xm2);
- rpp_val = rpp_phia(phia);
- rpp_xp2 = rpp_phia(xp2);
+ rpp_xm2 = Rpp_phia(xm2);
+ rpp_val = Rpp_phia(phia);
+ rpp_xp2 = Rpp_phia(xp2);
 
  m = (-1*rpp_xm2 + 2*rpp_val + rpp_xp2)/pow(h,2);  
 
@@ -140,23 +140,29 @@ MatrixZ SPR::transfer_matrix(double phia){
 }
 
 // value of rpp at a fixed value of phia for the stack
-double SPR::rpp_phia(double phia){
+complex<double> SPR::rpp_phia(double phia){
 	return rpp(transfer_matrix(phia)); // need to choose data rpp rps etc              
 }
 
 // value of rps at a fixed value of phia for the stack
-double SPR::rps_phia(double phia){
+complex<double>  SPR::rps_phia(double phia){
   return rps(transfer_matrix(phia));          
 }
 
 // value of rsp at a fixed value of phia for the stack
-double SPR::rsp_phia(double phia){
+complex<double>  SPR::rsp_phia(double phia){
   return rsp(transfer_matrix(phia));         
 }
 
 // value of rss at a fixed value of phia for the stack
-double SPR::rss_phia(double phia){
+complex<double>  SPR::rss_phia(double phia){
   return rss(transfer_matrix(phia));            
+}
+
+// value of rpp at a fixed value of phia for the stack
+double SPR::Rpp_phia(double phia){
+  //return Rpp(transfer_matrix(phia)); // need to choose data rpp rps rss etc   
+  return pow(Rpp(transfer_matrix(phia)),2);
 }
 
 // value of rpp at a fixed value of phia for the stack with a value for a fitable layer
@@ -203,5 +209,5 @@ double SPR::rpp_phia(double phia, double d){
 	total_trans(prod_seq, T);
 	prod_seq.clear();
 
-	return rpp(T);                    // need to choose data rpp rps etc
+	return Rpp(T);                    // need to choose data rpp rps etc
 }

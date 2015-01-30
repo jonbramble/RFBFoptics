@@ -61,7 +61,7 @@ void SPRG::rpp_segments(int start, int end){
   double phia, result;
   for(k=start;k<end;k++){
     phia = start_angle_rad+k*(range_rad/N); //input angle
-    result = rpp_phia(phia);
+    result = Rpp_phia(phia);
     mu.lock(); // lock here for writing to data
      data(k) = result;
     mu.unlock();

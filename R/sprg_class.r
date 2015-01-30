@@ -35,7 +35,7 @@ SPRG <- setClass("SPRG",
                    end_angle="numeric",
                    layers="list"
                  ),
-                 prototype(points=100,lambda=633e-9,n_entry=1.85,n_exit=1.33,start_angle=45,end_angle=60)
+                 prototype(points=100,lambda=633e-9,n_entry=1.78,n_exit=1.33,start_angle=45,end_angle=60)
 )
 
 validitySPRG <- function(object){
@@ -73,6 +73,7 @@ setMethod("curve",signature(object="SPRG"),function(object){
   dat <- cbind(int_angle,Rpp)
   return(dat)
 })
+
 
 setMethod("sprmin",signature(object="SPRG"),function(object){
   Rpp<-S4_SPRMIN(object)

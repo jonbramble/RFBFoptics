@@ -49,12 +49,16 @@ class SPR: public Fbfoptics {
 		protected:
 		
 		  double s_pi, angle;
-		  double rpp_phia(double phia);
+		  
+      
       double rpp_phia(double phia, double d);  // special overload for thickness fitting
       
-      double rps_phia(double phia);
-      double rsp_phia(double phia);
-      double rss_phia(double phia);
+      complex<double> rpp_phia(double phia);
+      complex<double> rps_phia(double phia);
+      complex<double> rsp_phia(double phia);
+      complex<double> rss_phia(double phia);
+      
+      double Rpp_phia(double phia);
       
       //TODO: Add methods to calculate reflectivity parameters for an arbitary chain of polarisers
       // possibly extract out into new class definition

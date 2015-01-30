@@ -78,6 +78,9 @@ protected:
   complex<double> rsp(const MatrixZ&);
     /// Calculates from the total transfer matrix the rss reflectivity co-efficient
   complex<double> rss(const MatrixZ&);
+  
+  double Rpp(const MatrixZ& M);
+  
 	/// Returns the product of the sequence of transfer matricies
 	void total_trans(std::vector<MatrixZ> prod_seq, MatrixZ&);
 };

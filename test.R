@@ -15,6 +15,9 @@ sm <- IsoLayer(d=5e-9,eps=1.525^2+0i)
 stack <- sprg + au + dopc
 rpp <- curve(stack)
 
+#plot results
+plot(rpp[,1],rpp[,2],type="l",xlab="Angle",ylab="rpp")
+
 arrmin = x[match(min(x[,2]),x[,2]),1]
 min(x[,2])
 
@@ -39,8 +42,7 @@ q_dopc <- rppval(stack_spr_dopc,min_angle)
 q_popc <- rppval(stack_spr_popc,min_angle)
 q_sm <- rppval(stack_spr_sm,min_angle)
 
-#plot results
-plot(rpp[,1],rpp[,2],type="l",xlab="Angle",ylab="rpp")
+
 
 sprd <- SPRD()  #setup an SPR simulations variation over d
 points(sprd) <- 8000

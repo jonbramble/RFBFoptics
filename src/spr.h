@@ -59,6 +59,7 @@ class SPR: public Fbfoptics {
       complex<double> rss_phia(double phia);
       
       double Rpp_phia(double phia);
+      double Rss_phia(double phia);
       
       //TODO: Add methods to calculate reflectivity parameters for an arbitary chain of polarisers
       // possibly extract out into new class definition

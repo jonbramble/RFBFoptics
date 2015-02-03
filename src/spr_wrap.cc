@@ -19,6 +19,7 @@
 #include <Rcpp.h>
 #include "sprg.h"
 #include "sprd.h"
+#include "spri.h"
 
 using namespace Rcpp;
 

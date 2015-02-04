@@ -31,11 +31,10 @@ void SPRI::setpolariser(double _P){P = _P;}
 void SPRI::setanalyser(double _A){A = _A;}
 void SPRI::setdelta(double _D){Delta = _D;}
 
-
-//boost::math::cyl_bessel_j<double, std::complex<double> > (1.0,std::complex<double>(1.0,0.0)); 
-
-
 // would prefer a matrix approach here
+// construct the intensity for all inputs and find frequency components
+
+
 void SPRI::DC_phia(double phia){
   double Rp = pow(abs(rpp_phia(phia)),2);
   double Rs = pow(abs(rss_phia(phia)),2);
@@ -46,6 +45,30 @@ void SPRI::DC_phia(double phia){
   double Mr = rpr*rsr+rpi*rsi;
   
   dc = Rp*pow(cos(A),2)+Rs*pow(sin(A),2)+bessel_j(0,Delta)*(Rp*pow(cos(A),2)-Rs*pow(sin(A),2))+Mr*sin(2*A)*sin(2*P);
+  
+}
+
+double SPRI::Rw(double phia){
+  double Rp = pow(abs(rpp_phia(phia)),2);
+  double Rs = pow(abs(rss_phia(phia)),2);
+  double rpr = real(rpp_phia(phia));
+  double rpi = imag(rpp_phia(phia));
+  double rsr = real(rss_phia(phia));
+  double rsi = imag(rss_phia(phia));
+  double Mr = rpr*rsr+rpi*rsi;
+  
+  
+}
+
+double SPRI::R2w(double phia){
+  double Rp = pow(abs(rpp_phia(phia)),2);
+  double Rs = pow(abs(rss_phia(phia)),2);
+  double rpr = real(rpp_phia(phia));
+  double rpi = imag(rpp_phia(phia));
+  double rsr = real(rss_phia(phia));
+  double rsi = imag(rss_phia(phia));
+  double Mr = rpr*rsr+rpi*rsi;
+  
   
 }
 

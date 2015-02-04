@@ -238,6 +238,18 @@ double Fbfoptics::Rpp(const MatrixZ& M)
   return abs(y/z);
 }
 
+MatrixZ Fbfoptics::jones(const MatrixZ& M)
+{
+  MatrixZ J(2,2);
+  
+  J(0,0) = rpp(M);
+  J(0,1) = rps(M);
+  J(1,0) = rsp(M);
+  J(1,1) = rss(M);
+  
+  return J;
+}
+
 //TODO: Add all the other reflectivities and transmissions
 //TODO: FOR phase modified configuration this might be more complex
 

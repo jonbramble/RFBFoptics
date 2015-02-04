@@ -27,6 +27,8 @@
 #include <boost/numeric/ublas/triangular.hpp>
 #include <boost/numeric/ublas/lu.hpp>
 
+#include <boost/math/special_functions.hpp>
+
 #include <complex>
 #include <algorithm>
 #include <thread>
@@ -78,6 +80,8 @@ protected:
   complex<double> rsp(const MatrixZ&);
     /// Calculates from the total transfer matrix the rss reflectivity co-efficient
   complex<double> rss(const MatrixZ&);
+  
+  MatrixZ jones(const MatrixZ&);
   
   double Rpp(const MatrixZ& M);
   

@@ -152,6 +152,43 @@ void setsim(S4 fullstack, SPR *spr_simulation){
   return; 
 }
 
+void setsim(S4 fullstack, SPRI *spr_simulation){
+  
+  int layer_count;
+  double lambda, n_entry, n_exit, angle, modulator,analyser,polariser,mod_amplitude;
+  Rcpp::List layers;
+  
+  lambda = fullstack.slot("lambda");
+  n_entry = fullstack.slot("n_entry");
+  n_exit = fullstack.slot("n_exit");
+  angle = fullstack.slot("angle");
+  layers = fullstack.slot("layers");
+  modulator = fullstack.slot("modulator");
+  analyser = fullstack.slot("analyser");
+  polariser = fullstack.slot("polariser");
+  mod_amplitude = fullstack.slot("mod_amplitude");
+  
+  layer_count = layers.size();
+  std::vector<IsoLayer> vlayers(layer_count);   // vector of layers
+  convert_layer(vlayers,layers,layer_count);    // r to layer conversion
+  
+  spr_simulation->setnlayers(layer_count);
+  spr_simulation->setlayers(vlayers);
+
+  spr_simulation->setangle(angle); 
+
+  spr_simulation->setna(n_entry);
+	spr_simulation->setnf(n_exit);
+	spr_simulation->setlambda(lambda);
+  
+  spr_simulation->setmodulator(modulator);
+  spr_simulation->setanalyser(analyser);
+  spr_simulation->setpolariser(polariser);
+  spr_simulation->setdelta(mod_amplitude);
+  
+  return; 
+}
+
 // return the value of rpp only at a chosen angle for the layers specified
 // [[Rcpp::export]]
 NumericVector S4_SPRVAL(S4 fullstack, NumericVector angle){
@@ -223,4 +260,22 @@ NumericVector S4_SPRMIN(S4 fullstack){
   delete spr_simulation;  
   y = result;
   return y;
+}
+
+// This part is for a Phase Modulated System, not strictly SPR so could be moved to ellipsometry section
+// [[Rcpp::export]]
+NumericVector S4_SPRI(S4 fullstack){
+  //NumericVector y(3);
+  double dc, Rw, R2w;
+  
+  SPRI *spr_simulation = new SPRI(1);
+  setsim(fullstack, spr_simulation);    // set parameters
+  
+  spr_simulation->run();
+  
+  dc = spr_simulation->get_dc();  // this is not like the other functions
+  Rw = spr_simulation->get_Rw();  // this is not like the other functions
+  R2w = spr_simulation->get_R2w();  // this is not like the other functions - pass by ref
+
+  NumericVector results = NumericVector::create(dc,Rw,R2w);
 }

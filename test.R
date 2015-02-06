@@ -42,8 +42,6 @@ q_dopc <- rppval(stack_spr_dopc,min_angle)
 q_popc <- rppval(stack_spr_popc,min_angle)
 q_sm <- rppval(stack_spr_sm,min_angle)
 
-
-
 sprd <- SPRD()  #setup an SPR simulations variation over d
 points(sprd) <- 8000
 angle(sprd) <- 52

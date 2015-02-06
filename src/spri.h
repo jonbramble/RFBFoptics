@@ -30,33 +30,36 @@ class SPRI : public SPR {
   
   SPRI(int N);
   
-  int N, cores;
-  
-  // single thread for now
-  
-  // outputs DC, 1f, 2f
-  
+  //int N, cores; // single thread for now
+
   // inputs M, A angles, Amplitude of phase modulation
-  
-  private:
-  
-  double dc, Rw, R2w;
-  
-  
-  
-  double A, M, P, Delta;
+  // outputs DC, 1f, 2f  
+  double get_dc();
+  double get_Rw();
+  double get_R2w();
   
   void setanalyser(double _A);
   void setmodulator(double _M);
   void setpolariser(double _P);
   void setdelta(double _D);
+  
   void run();
   
+  private:
   
+  double dc, Rw, R2w;
   
-  void setnpts(double _N);
+  double Rp, Rs, rpr, rpi, rsr, rsi, Mr, Rpc2, Rss2;
   
-  void DC_phia(double phia);
+  double phia;
+  
+  double A, M, P, Delta;
+  
+  void setreflectivities();
+  
+  void DC_phia();
+  void Rw_phia();
+  void R2w_phia();  
   
   double bessel_j(int v, double x);
   

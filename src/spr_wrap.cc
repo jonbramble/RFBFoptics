@@ -155,7 +155,7 @@ void setsim(S4 fullstack, SPR *spr_simulation){
 void setsim(S4 fullstack, SPRI *spr_simulation){
   
   int layer_count;
-  double lambda, n_entry, n_exit, angle, modulator,analyser,polariser,mod_amplitude;
+  double lambda, n_entry, n_exit, angle, modulator, analyser, polariser, mod_amplitude;
   Rcpp::List layers;
   
   lambda = fullstack.slot("lambda");
@@ -163,6 +163,7 @@ void setsim(S4 fullstack, SPRI *spr_simulation){
   n_exit = fullstack.slot("n_exit");
   angle = fullstack.slot("angle");
   layers = fullstack.slot("layers");
+  
   modulator = fullstack.slot("modulator");
   analyser = fullstack.slot("analyser");
   polariser = fullstack.slot("polariser");
@@ -265,7 +266,6 @@ NumericVector S4_SPRMIN(S4 fullstack){
 // This part is for a Phase Modulated System, not strictly SPR so could be moved to ellipsometry section
 // [[Rcpp::export]]
 NumericVector S4_SPRI(S4 fullstack){
-  //NumericVector y(3);
   double dc, Rw, R2w;
   
   SPRI *spr_simulation = new SPRI(1);

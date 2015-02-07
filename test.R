@@ -15,9 +15,7 @@ sm <- IsoLayer(d=5e-9,eps=1.525^2+0i)
 stack <- sprg + au + dopc
 rpp <- curve(stack)
 
-spri <- SPRI()
-angle(spri) <- 55.1
-mod_amplitude(spri) <- 2
+spri <- SPRI(angle=55.1,mod_amplitude=2)
 sim <- spri + au + dopc
 run(sim)
 
@@ -53,7 +51,7 @@ points(sprd) <- 8000
 angle(sprd) <- 52
 protein <- IsoLayer(fitd=TRUE,dstart=0,dend=2e-9,eps=1.45+0i)
 
-dstack <- sprd + au + sam + protein
+dstack <- sprd + au + protein
 rpp <- curve(dstack)
 
 plot(rpp,type='l')

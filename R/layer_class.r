@@ -43,7 +43,7 @@ IsoLayer <- setClass("IsoLayer",
 #' @slot phi angle of the molecular axis in relation to the prism axis - see diagram
 #' 
 
-AnIsoLayer <- setClass("AnIsoLayer", 
+AnisoLayer <- setClass("AnisoLayer", 
                      representation(
                        d="numeric",
                        epsx="numeric",
@@ -53,3 +53,11 @@ AnIsoLayer <- setClass("AnIsoLayer",
                        phi="numeric"
                      )
 )
+
+setMethod("show", signature(object="IsoLayer"),function(object){
+  cat(" Isotropic Layer data \n")
+})
+
+setMethod("show", signature(object="AnisoLayer"),function(object){
+  cat(" Anisotropic Layer data \n")
+})

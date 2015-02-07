@@ -37,6 +37,7 @@ class SPRI : public SPR {
   double get_dc();
   double get_Rw();
   double get_R2w();
+  double get_mod_depth();
   
   void setanalyser(double _A);
   void setmodulator(double _M);
@@ -47,7 +48,7 @@ class SPRI : public SPR {
   
   private:
   
-  double dc, Rw, R2w;
+  double dc, Rw, R2w, mod_depth;
   
   double Rp, Rs, rpr, rpi, rsr, rsi, Mr, Rpc2, Rss2;
   
@@ -60,6 +61,7 @@ class SPRI : public SPR {
   void DC_phia();
   void Rw_phia();
   void R2w_phia();  
+  void mod_depth_phia();
   
   double bessel_j(int v, double x);
 

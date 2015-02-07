@@ -31,11 +31,12 @@ SPRI::SPRI(int N){
 void SPRI::setmodulator(double _M){M = deg2rad(_M);}
 void SPRI::setpolariser(double _P){P = deg2rad(_P);}
 void SPRI::setanalyser(double _A){A = deg2rad(_A);}
-void SPRI::setdelta(double _D){Delta = deg2rad(_D);}
+void SPRI::setdelta(double _D){Delta = _D;}
 
 double SPRI::get_dc(){return dc;}
 double SPRI::get_Rw(){return Rw;}
 double SPRI::get_R2w(){return R2w;}
+double SPRI::get_mod_depth(){return mod_depth;}
 
 void SPRI::run(){ 
   phia = deg2rad(angle);
@@ -43,24 +44,28 @@ void SPRI::run(){
   DC_phia(); // do those calculations
   Rw_phia();
   R2w_phia();
+  mod_depth_phia();
 }
 
 void SPRI::setreflectivities(){
-  double Rp = pow(abs(rpp_phia(phia)),2);
-  double Rs = pow(abs(rss_phia(phia)),2);
-  double rpr = real(rpp_phia(phia));
-  double rpi = imag(rpp_phia(phia));
-  double rsr = real(rss_phia(phia));
-  double rsi = imag(rss_phia(phia));
-  double Mr = rpr*rsr+rpi*rsi;
+  Rp = pow(abs(rpp_phia(phia)),2);
+  Rs = pow(abs(rss_phia(phia)),2);
+  rpr = real(rpp_phia(phia));
+  rpi = imag(rpp_phia(phia));
+  rsr = real(rss_phia(phia));
+  rsi = imag(rss_phia(phia));
+  Mr = rpr*rsr+rpi*rsi;
   
-  double Rpc2 = Rp*pow(cos(A),2);
-  double Rss2 = Rs*pow(sin(A),2); 
+  Rpc2 = Rp*pow(cos(A),2);
+  Rss2 = Rs*pow(sin(A),2); 
+  
+  //std::cout << Rp << "," << Rs << "," << rpr << "," << rpi << ","<< rsr << "," << rsi << "," << Mr<< "," << Rpc2<< "," << Rss2 << std::endl;
+  //std::cout << bessel_j(0,Delta) << std::endl;
 }
 // naming schemes and calling styles need a clean up
 
 void SPRI::DC_phia(){
-  dc = Rpc2+Rss2+bessel_j(0,Delta)*(Rpc2-Rss2)+Mr*sin(2*A)*sin(2*P); 
+  dc = Rpc2+Rss2+bessel_j(0,Delta)*(cos(2*P)*(Rpc2-Rss2)+Mr*sin(2*A)*sin(2*P)); 
 }
 
 void SPRI::Rw_phia(){
@@ -68,7 +73,11 @@ void SPRI::Rw_phia(){
 }
 
 void SPRI::R2w_phia(){
-  R2w = 2*bessel_j(2,Delta)*(cos(2*P)*(Rpc2-Rss2)+Mr*sin(2*A)*cos(2*P));
+  R2w = 2*bessel_j(2,Delta)*(cos(2*P)*(Rpc2-Rss2)+Mr*sin(2*A)*sin(2*P));
+}
+
+void SPRI::mod_depth_phia(){
+  mod_depth = Rw/dc;
 }
 
 double SPRI::bessel_j(int v, double x){

@@ -16,7 +16,8 @@ stack <- sprg + au + dopc
 rpp <- curve(stack)
 
 spri <- SPRI()
-angle(spri) <- 60
+angle(spri) <- 55.1
+mod_amplitude(spri) <- 2
 sim <- spri + au + dopc
 run(sim)
 

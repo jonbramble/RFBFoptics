@@ -266,7 +266,7 @@ NumericVector S4_SPRMIN(S4 fullstack){
 // This part is for a Phase Modulated System, not strictly SPR so could be moved to ellipsometry section
 // [[Rcpp::export]]
 NumericVector S4_SPRI(S4 fullstack){
-  double dc, Rw, R2w;
+  double dc, Rw, R2w, mod_depth;
   
   SPRI *spr_simulation = new SPRI(1);
   setsim(fullstack, spr_simulation);    // set parameters
@@ -276,7 +276,8 @@ NumericVector S4_SPRI(S4 fullstack){
   dc = spr_simulation->get_dc();  // this is not like the other functions
   Rw = spr_simulation->get_Rw();  // this is not like the other functions
   R2w = spr_simulation->get_R2w();  // this is not like the other functions - pass by ref
+  mod_depth = spr_simulation->get_mod_depth();
 
-  NumericVector results = NumericVector::create(dc,Rw,R2w);
+  NumericVector results = NumericVector::create(dc,Rw,R2w,mod_depth);
   return results;
 }

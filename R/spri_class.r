@@ -36,7 +36,7 @@ SPRI <- setClass("SPRI",
                    mod_amplitude="numeric",
                    layers="list"
                  ),
-                 prototype(lambda=633e-9,n_entry=1.85,n_exit=1.33,angle=50,polariser=0,modulator=0,analyser=0,mod_amplitude=0)
+                 prototype(lambda=633e-9,n_entry=1.85,n_exit=1.33,angle=50,polariser=45,modulator=45,analyser=-45,mod_amplitude=137)
 )
 
 validitySPRI <- function(object){

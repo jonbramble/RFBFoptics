@@ -278,4 +278,5 @@ NumericVector S4_SPRI(S4 fullstack){
   R2w = spr_simulation->get_R2w();  // this is not like the other functions - pass by ref
 
   NumericVector results = NumericVector::create(dc,Rw,R2w);
+  return results;
 }

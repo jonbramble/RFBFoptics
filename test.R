@@ -15,6 +15,11 @@ sm <- IsoLayer(d=5e-9,eps=1.525^2+0i)
 stack <- sprg + au + dopc
 rpp <- curve(stack)
 
+spri <- SPRI()
+angle(spri) <- 60
+sim <- spri + au + dopc
+run(sim)
+
 #plot results
 plot(rpp[,1],rpp[,2],type="l",xlab="Angle",ylab="rpp")
 

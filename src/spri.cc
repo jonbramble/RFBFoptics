@@ -28,17 +28,17 @@ SPRI::SPRI(int N){
   //setnpts(N);
 }
 
-void SPRI::setmodulator(double _M){M = _M;}
-void SPRI::setpolariser(double _P){P = _P;}
-void SPRI::setanalyser(double _A){A = _A;}
-void SPRI::setdelta(double _D){Delta = _D;}
+void SPRI::setmodulator(double _M){M = deg2rad(_M);}
+void SPRI::setpolariser(double _P){P = deg2rad(_P);}
+void SPRI::setanalyser(double _A){A = deg2rad(_A);}
+void SPRI::setdelta(double _D){Delta = deg2rad(_D);}
 
 double SPRI::get_dc(){return dc;}
 double SPRI::get_Rw(){return Rw;}
 double SPRI::get_R2w(){return R2w;}
 
 void SPRI::run(){ 
-  phia = angle*(s_pi/180);
+  phia = deg2rad(angle);
   setreflectivities();
   DC_phia(); // do those calculations
   Rw_phia();

@@ -28,6 +28,7 @@
 #include <boost/numeric/ublas/lu.hpp>
 
 #include <boost/math/special_functions.hpp>
+#include <boost/math/constants/constants.hpp>
 
 #include <complex>
 #include <algorithm>
@@ -87,6 +88,9 @@ protected:
   
 	/// Returns the product of the sequence of transfer matricies
 	void total_trans(std::vector<MatrixZ> prod_seq, MatrixZ&);
+  
+  // helper method, could be moved out of here
+  double deg2rad(double);
 };
 
 #endif /* FBFOPTICS_H_ */

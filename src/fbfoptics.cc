@@ -291,4 +291,9 @@ void Fbfoptics::total_trans(std::vector<MatrixZ> prod_seq, MatrixZ& T)
 
 }
 
+double Fbfoptics::deg2rad(double deg){
+  double rad;
+  rad = deg*(boost::math::constants::pi<double>()/180);
+  return rad;
+}
 

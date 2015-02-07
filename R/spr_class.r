@@ -223,7 +223,6 @@ setMethod("run",signature(object="SPRI"),function(object){
   return(Rpp)
 })
 
-
 setMethod("show", signature(object="SPR"), function(object){
   cat(" SPR base data \n")   
   cat(" Wavelength:", object@lambda , "\n")
@@ -233,7 +232,7 @@ setMethod("show", signature(object="SPR"), function(object){
 })
 
 setMethod("show", signature(object="SPRD"), function(object){
-  cat(" SPR base data \n")   
+  cat(" SPRD base data \n")   
   cat(" Number of data points:", object@points , "\n")
   cat(" Wavelength:", object@lambda , "\n")
   cat(" Angle:", object@angle , "\n")
@@ -242,7 +241,7 @@ setMethod("show", signature(object="SPRD"), function(object){
 })
 
 setMethod("show", signature(object="SPRG"), function(object){
-  cat(" SPR base data \n")   
+  cat(" SPRG base data \n")   
   cat(" Number of data points:", object@points , "\n")
   cat(" Wavelength:", object@lambda , "\n")
   cat(" Starting Angle:", object@start_angle , "\n")
@@ -252,7 +251,7 @@ setMethod("show", signature(object="SPRG"), function(object){
 })
 
 setMethod("show", signature(object="SPRI"), function(object){
-  cat(" SPR base data \n")   
+  cat(" SPRI base data \n")   
   cat(" Number of data points:", object@points , "\n")
   cat(" Wavelength:", object@lambda , "\n")
   cat(" Angle:", object@angle , "\n")

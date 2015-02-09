@@ -278,6 +278,8 @@ NumericVector S4_SPRI(S4 fullstack){
   R2w = spr_simulation->get_R2w();  // this is not like the other functions - pass by ref
   mod_depth = spr_simulation->get_mod_depth();
 
+  delete spr_simulation;
+
   NumericVector results = NumericVector::create(dc,Rw,R2w,mod_depth);
   return results;
 }

@@ -95,7 +95,7 @@ n_exit_plot <- ggplot(n_exit_df, aes(x=n_exit_seq,y=md_n_exit))
 n_exit_plot + geom_line() + xlab("Exit Refractive Index ") + ylab("Modulation Responsivity") + theme_minimal()
 
 ## set a range of values to operator over
-arange = seq(54,56,by=0.05)
+arange = seq(54,56,by=0.1)
 prange = seq(-90,90,by=1)
 anrange = seq(-90,90,by=1)
 
@@ -105,7 +105,7 @@ md_data$md <- output
 ggplot(md_data, aes(x=Var1,y=Var2,fill=md)) + geom_raster() + 
   theme_minimal() + scale_fill_gradient2() + xlab("Polariser") + ylab("Analyser")
 
-md_data_angle <- expand.grid(arange,anprange)
+md_data_angle <- expand.grid(arange,anrange)
 polariser = -45
 output = apply(md_data_angle, 1, function(x,y,z) spri_pol_an(x[1],polariser,x[2]))
 md_data_angle$md <- output

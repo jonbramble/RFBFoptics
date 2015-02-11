@@ -31,9 +31,9 @@ spri_n <- function(n) {
   mod_amplitude(spri) <- 2.405
   n_exit(spri) <- n
   angle(spri) <- 55.5
-  polariser(spri) <- 30
-  modulator(spri) <- 30
-  analyser(spri) <- 172
+  polariser(spri) <- 43
+  modulator(spri) <- 43
+  analyser(spri) <- 176.8
   stack_spri <- spri + au
   m <- run(stack_spri)[4]
 }
@@ -127,8 +127,8 @@ n_exit_diff <- diff(md_n_exit/step)  # to match paper
 n_exit_diff_seq = seq(1.330+step/2,1.350,by=step)
 n_exit_diff_df=data.frame(n_exit_diff_seq,n_exit_diff)
 
-n_exit_diff_seq_plot_diff <- ggplot(angle_diff_df, aes(x=n_exit_diff_seq,y=n_exit_diff))
-n_exit_diff_seq_plot_diff + geom_line() + xlab("Exit Refractive Index ") + ylim(c(0,1200)) + ylab("Modulation Responsivity /RIU") + theme_minimal()
+n_exit_diff_plot <- ggplot(n_exit_diff_df, aes(x=n_exit_diff_seq,y=n_exit_diff))
+n_exit_diff_plot + geom_line() + xlab("Exit Refractive Index ") + ylim(c(0,1200)) + ylab("Modulation Responsivity /RIU") + theme_minimal()
 
 ## set a range of values to operator over
 arange = seq(54,56,by=0.1)

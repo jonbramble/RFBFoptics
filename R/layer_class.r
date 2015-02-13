@@ -33,6 +33,9 @@ IsoLayer <- setClass("IsoLayer",
          prototype(fitd=FALSE,dstart=0.0,dend=0.0,d=0.0,eps=0+0i)
 )
 
+setGeneric("d<-",function(x,value) standardGeneric("d<-"))
+setReplaceMethod("d","IsoLayer", function(x,value) {x@d <- value; validObject(x); x})
+
 #' An S4 class to represent anisotropic layer.
 #'
 #' @slot d Thickness of the layer in m

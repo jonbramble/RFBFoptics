@@ -31,8 +31,8 @@ spri_n <- function(n) {
   mod_amplitude(spri) <- 2.405
   n_exit(spri) <- n
   angle(spri) <- 55.5
-  polariser(spri) <- 43
-  modulator(spri) <- 43
+  polariser(spri) <- 40
+  modulator(spri) <- 40
   analyser(spri) <- 176.8
   stack_spri <- spri + au
   m <- run(stack_spri)[4]
@@ -128,7 +128,7 @@ n_exit_diff_seq = seq(1.330+step/2,1.350,by=step)
 n_exit_diff_df=data.frame(n_exit_diff_seq,n_exit_diff)
 
 n_exit_diff_plot <- ggplot(n_exit_diff_df, aes(x=n_exit_diff_seq,y=n_exit_diff))
-n_exit_diff_plot + geom_line() + xlab("Exit Refractive Index ") + ylim(c(0,1200)) + ylab("Modulation Responsivity /RIU") + theme_minimal()
+n_exit_diff_plot + geom_line() + xlab("Exit Refractive Index ") + ylim(c(0,750)) +xlim(c(1.33,1.345)) + ylab("Modulation Responsivity /RIU") + theme_minimal(base_size=18)
 
 ## set a range of values to operator over
 arange = seq(54,56,by=0.1)
@@ -139,7 +139,7 @@ md_data <- expand.grid(prange,anrange)
 output = apply(md_data, 1, function(x,y,z) spri_pol_an(55.5,x[1],x[2]))
 md_data$md <- output
 ggplot(md_data, aes(x=Var1,y=Var2,fill=md)) + geom_raster() + 
-  theme_minimal() + scale_fill_gradient2() + xlab("Polariser") + ylab("Analyser")
+  theme_minimal(base_size=18) + scale_fill_gradient2() + xlab("Polariser") + ylab("Analyser")
 
 md_data <- expand.grid(prange,anrange)
 output = apply(md_data, 1, function(x,y,z) spri_pol_an_dn(pol=x[1],an=x[2]))

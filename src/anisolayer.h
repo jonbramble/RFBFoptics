@@ -29,15 +29,18 @@ class AnisoLayer : public Layer {
 		void setepsz(double _epsz);
 		void settheta(double _theta);
 		void setphi(double _phi);
+    void setorder(double _S);
+    
 
 		double getepsx();
 		double getepsy();
 		double getepsz();
 		double gettheta();
 		double getphi();
+    double getorder();
     
   private:   
-    double epsx, epsy, epsz, theta, phi;
+    double epsx, epsy, epsz, theta, phi, S;
   
 };
 

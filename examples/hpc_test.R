@@ -1,4 +1,4 @@
-.libPaths("/home/mbzjpb/R/R_LIBS")
+#.libPaths("/home/mbzjpb/R/R_LIBS")
 library(FBFoptics)
 
 #create some isotropic layers
@@ -15,4 +15,4 @@ protein <- IsoLayer(fitd=TRUE,dstart=0,dend=10e-9,eps=1.45+0i)
 dstack <- sprd + au + protein
 rpp <- curve(dstack)
 
-#save(rpp,file="rpp.Rdata")
+save(rpp,file="rpp.Rdata")

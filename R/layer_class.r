@@ -44,6 +44,7 @@ setReplaceMethod("d","IsoLayer", function(x,value) {x@d <- value; validObject(x)
 #' @slot epsz The relative permittivity of the material in the z direction
 #' @slot theta angle of the molecular axis in relation to the prism axis - see diagram
 #' @slot phi angle of the molecular axis in relation to the prism axis - see diagram
+#' @slot S the order parameter for the layer
 #' 
 
 AnisoLayer <- setClass("AnisoLayer", 
@@ -53,7 +54,8 @@ AnisoLayer <- setClass("AnisoLayer",
                        epsy="numeric",
                        epsz="numeric",
                        theta="numeric",
-                       phi="numeric"
+                       phi="numeric",
+                       S="numeric"
                      )
 )
 
@@ -63,4 +65,11 @@ setMethod("show", signature(object="IsoLayer"),function(object){
 
 setMethod("show", signature(object="AnisoLayer"),function(object){
   cat(" Anisotropic Layer data \n")
+  cat(" Layer Thickness:", object@d , "\n")
+  cat(" eps along x:", object@epsx , "\n")
+  cat(" eps along y:", object@epsy , "\n")
+  cat(" eps along z:", object@epsz , "\n")
+  cat(" Theta angle:", object@theta, "\n")
+  cat(" Phi angle:", object@phi , "\n")
+  cat(" Order Parameter S:", object@S , "\n")
 })

@@ -43,7 +43,7 @@ SPR <- setClass("SPR",
 #' @slot n_exit Refractive index of the exit medium
 #' 
 SPRD <- setClass("SPRD", 
-                 representation(
+                 slots=c(
                    points="numeric",
                    lambda="numeric",
                    n_entry="numeric",
@@ -51,7 +51,7 @@ SPRD <- setClass("SPRD",
                    angle="numeric",
                    layers="list"
                  ),
-                 prototype(lambda=633e-9,n_entry=1.85,n_exit=1.33,angle=50)
+                 prototype = list(lambda=633e-9,n_entry=1.85,n_exit=1.33,angle=50)
 )
 
 #' An S4 class to represent a SPR experiment over a range of angles.
@@ -106,7 +106,7 @@ SPRI <- setClass("SPRI",
 )
 
 SPRAN <- setClass("SPRAN",
-                 representation(
+                 slots = c(
                    points="numeric",
                    lambda="numeric",
                    n_entry="numeric",
@@ -117,9 +117,9 @@ SPRAN <- setClass("SPRAN",
                    analyser="numeric",
                    mod_amplitude="numeric",
                    layers="list",
-                   anisolayer="Anisolayer"
-                    
-                  )
+                   anisolayer="AnisoLayer"     
+                  ),
+                 contains = "AnisoLayer"
 )
 
 validitySPR <- function(object){

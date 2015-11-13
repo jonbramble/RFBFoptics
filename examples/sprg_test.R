@@ -4,3 +4,4 @@ sprg <- SPRG()  #setup an SPR simulations
 points(sprg) <- 5000
 end_angle(sprg) <- 60
 n_exit(sprg) <- 1.33
+

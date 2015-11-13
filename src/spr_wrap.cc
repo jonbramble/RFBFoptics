@@ -23,6 +23,10 @@
 
 using namespace Rcpp;
 
+//void convert_layer_mixed(std::vector<Layer>&vlayers, List layers, int layer_count){
+//  IsoLayer a_layer;
+//}
+
 void convert_layer(std::vector<IsoLayer>&vlayers, List layers, int layer_count){
   IsoLayer a_layer;
   double layer_d;

@@ -84,7 +84,11 @@ SPRG <- setClass("SPRG",
 #' @slot n_entry Refractive index of the entry medium, eg a Prism
 #' @slot angle Exterior angle in degrees
 #' @slot n_exit Refractive index of the exit medium
-#' TODO: ADD OTHER SLOTS
+#' @slot polariser Input polariser angle
+#' @slot modulator Input modulator angle
+#' @slot analyser Exit polariser angle
+#' @slot mod_amplitude amount of amplitude modulation applied to the input
+#' @slot layers A list of n isotropic layers representing the optical stack
 SPRI <- setClass("SPRI", 
                  representation(
                    points="numeric",
@@ -99,6 +103,23 @@ SPRI <- setClass("SPRI",
                    layers="list"
                  ),
                  prototype(lambda=633e-9,n_entry=1.78,n_exit=1.33,angle=50,polariser=30,modulator=30,analyser=172,mod_amplitude=1)
+)
+
+SPRAN <- setClass("SPRAN",
+                 representation(
+                   points="numeric",
+                   lambda="numeric",
+                   n_entry="numeric",
+                   n_exit="numeric",
+                   angle="numeric",
+                   polariser="numeric",
+                   modulator="numeric",
+                   analyser="numeric",
+                   mod_amplitude="numeric",
+                   layers="list",
+                   anisolayer="Anisolayer"
+                    
+                  )
 )
 
 validitySPR <- function(object){
@@ -278,4 +299,14 @@ setMethod("+", signature(e1="SPRG",e2="IsoLayer"), function(e1,e2){
 setMethod("+", signature(e1="SPRI",e2="IsoLayer"), function(e1,e2){
   e1@layers <- c(e1@layers,e2)
   structure(e1,class="SPRI")
+})
+
+setMethod("+", signature(e1="SPRAN",e2="IsoLayer"),function(e1,e2){
+  e1@layers <- c(e1@layers,e2)
+  structure(e1,class="SPRAN")
+})
+
+setMethod("+", signature(e1="SPRAN",e2="AnisoLayer"),function(e1,e2){
+  e1@anisolayer <- e2
+  structure(e1,class="SPRAN")
 })

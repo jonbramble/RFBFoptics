@@ -32,3 +32,6 @@ double AnisoLayer::gettheta(){ return theta; }
 
 void AnisoLayer::setphi(double _phi){ phi = _phi; }
 double AnisoLayer::getphi(){ return phi; }
+
+void AnisoLayer::setorder(double _S){ S = _S;}
+double AnisoLayer::getorder(){ return S; }

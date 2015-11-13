@@ -250,6 +250,8 @@ MatrixZ Fbfoptics::jones(const MatrixZ& M)
   return J;
 }
 
+//TODO: Add a method to calculate the Mueller matrix for the layer and return it
+
 //TODO: Add all the other reflectivities and transmissions
 //TODO: FOR phase modified configuration this might be more complex
 

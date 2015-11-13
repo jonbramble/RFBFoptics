@@ -15,7 +15,7 @@ print(min_angle)
 
 ## Plot the SPR curve
 sprg <- SPRG(n_entry=1.78,n_exit=1.34) 
-stack <- sprg + au
+stack <- sprg + au + popc
 spr_curve_df <- data.frame(curve(stack))
 
 sprg_plot <- ggplot(spr_curve_df, aes(x=int_angle,y=Rpp))
@@ -31,8 +31,8 @@ spri_n <- function(n) {
   mod_amplitude(spri) <- 2.405
   n_exit(spri) <- n
   angle(spri) <- 55.5
-  polariser(spri) <- 40
-  modulator(spri) <- 40
+  polariser(spri) <- 45
+  modulator(spri) <- 45
   analyser(spri) <- 176.8
   stack_spri <- spri + au
   m <- run(stack_spri)[4]
@@ -121,7 +121,7 @@ md_n_exit <- sapply(n_exit_seq,spri_n)
 n_exit_df=data.frame(n_exit_seq,md_n_exit)
 
 n_exit_plot <- ggplot(n_exit_df, aes(x=n_exit_seq,y=md_n_exit))
-n_exit_plot + geom_line() + xlab("Exit Refractive Index ") + ylab("Modulation Responsivity") + theme_minimal()
+n_exit_plot + geom_line() + xlab("Exit Refractive Index ") + ylab("Modulation Responsivity") + theme_minimal(base_size=22)
 
 n_exit_diff <- diff(md_n_exit/step)  # to match paper
 n_exit_diff_seq = seq(1.330+step/2,1.350,by=step)

@@ -56,7 +56,8 @@ AnisoLayer <- setClass("AnisoLayer",
                        theta="numeric",
                        phi="numeric",
                        S="numeric"
-                     )
+                     ),
+                     prototype(d=5e-9,epsx=1,epsy=1,epsz=1,theta=0,phi=0,S=1)
 )
 
 setMethod("show", signature(object="IsoLayer"),function(object){

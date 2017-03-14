@@ -1,6 +1,6 @@
 step = 0.1e-9
 d_seq= seq(0,20e-9,by=step)
-#md_d <- sapply(d_seq,spri_d)
+md_d <- sapply(d_seq,spri_d)
 
 nCores <- detectCores()
 cluster <- makeCluster(nCores)
@@ -53,7 +53,8 @@ clusterEvalQ(cluster,library(FBFoptics))
 clusterExport(cluster,"spri")
 clusterExport(cluster,"au")
 clusterExport(cluster,"adlayer")
-clusterExport(cluster,"spri_pol_an")
+clusterExport(cluster,"spri_n_pol_an")
+clusterExport(cluster,"spri_pol_an_dn")
 
 md_data <- expand.grid(prange,anrange)
 ptm <- proc.time()
@@ -68,7 +69,7 @@ ggplot(md_data, aes(x=Var1,y=Var2,fill=md)) + geom_raster() +
   theme_minimal() + scale_fill_gradient2() + xlab("Polariser") + ylab("Analyser")
 
 md_data <- expand.grid(prange,anrange)
-output = apply(md_data, 1, function(x,y,z) spri_pol_an_dn(pol=x[1],an=x[2]))
+output = parApply(cl=cluster,md_data, 1, function(x,y,z) spri_pol_an_dn(pol=x[1],an=x[2]))
 md_data$md <- output
 ggplot(md_data, aes(x=Var1,y=Var2,fill=md)) + geom_raster() + 
   theme_minimal() + scale_fill_gradient2() + xlab("Polariser") + ylab("Analyser")

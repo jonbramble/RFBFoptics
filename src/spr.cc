@@ -39,7 +39,7 @@ void SPR::sprval(){
   val = Rpp_phia(phia);
 }
 
-//this should find the spr minimum in a small number of steps
+//this should find the spr minimum in a small number of steps - gradient descent 
 void SPR::sprmin(){
   
   double result, result_old, phia, crangle, step;

@@ -1,7 +1,7 @@
 library(FBFoptics)
 
 #create some isotropic layers
-au <- IsoLayer(d=49e-9,eps=-11+1.01i)
+au <- IsoLayer(d=54e-9,eps=-11+1.01i)
 dopc <- IsoLayer(d=5e-9,eps=1.450^2+0i)
 popc <- IsoLayer(d=5e-9,eps=1.470^2+0i)
 sm <- IsoLayer(d=5e-9,eps=1.525^2+0i)
@@ -11,8 +11,12 @@ sm <- IsoLayer(d=5e-9,eps=1.525^2+0i)
 stack <- sprg + au
 rpp <- curve(stack)
 
+stack2 <- sprg + au + dopc
+rppd <- curve(stack2)
+
 #plot results
-plot(rpp[,1],rpp[,2],type="l",xlab="Angle",ylab="rpp")
+plot(rpp[,1],rpp[,2],type="l",xlab="Internal Angle",ylab="Reflectivity (rpp)",ylim=c(0, 1),xlim=c(45, 75))
+#lines(rppd[,1],rppd[,2],type='l', col="blue")
 
 arrmin = x[match(min(x[,2]),x[,2]),1]
 min(x[,2])

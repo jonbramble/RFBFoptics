@@ -7,3 +7,4 @@ src/*.dll
 *~
 report
 plot1.svg
+*.png

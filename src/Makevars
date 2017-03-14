@@ -1,7 +1,7 @@
 ## Use the R_HOME indirection to support installations of multiple R version
 PKG_LIBS = `$(R_HOME)/bin/Rscript -e "Rcpp:::LdFlags()"`
 
-PKG_CXXFLAGS=  -Wall -pipe -Wno-unused -march=native -pedantic -std=c++11 -pthread -I/cm/shared/apps/boost_1_57_0/gcc/include
+## PKG_CXXFLAGS=  -Wall -pipe -Wno-unused -march=native -pedantic -std=c++11 -pthread -I/cm/shared/apps/boost_1_57_0/gcc/include
 
 ## As an alternative, one can also add this code in a file 'configure'
 ##

@@ -209,17 +209,17 @@ setGeneric("rppval", function(e1,e2) {standardGeneric("rppval")})
 setGeneric("delta", function(stack,angle) {standardGeneric("delta")})
 
 setMethod("rppval",signature(e1="SPR",e2="numeric"),function(e1,e2){
-  Rpp<-S4_SPRVAL(e1,e2)
+  Rpp<-S4_SPR_RPP(e1,e2)
   return(Rpp)
 })
 
 setMethod("delta",signature(stack="SPR",angle="numeric"),function(stack,angle){
-  Delta<-S4_DELTAVAL(stack,angle)
+  Delta<-S4_SPRG_DELTA(stack,angle)
   return(Delta)
 })
 
 setMethod("sprmin",signature(object="SPR"),function(object){
-  Rpp<-S4_SPRMIN(object)
+  Rpp<-S4_SPR_MIN(object)
   return(Rpp)
 })
 

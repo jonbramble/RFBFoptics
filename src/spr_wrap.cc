@@ -196,7 +196,7 @@ void setsim(S4 fullstack, SPRI *spr_simulation){
 
 // return the value of rpp only at a chosen angle for the layers specified
 // [[Rcpp::export]]
-NumericVector S4_SPRVAL(S4 fullstack, NumericVector angle){
+NumericVector S4_SPR_RPP(S4 fullstack, NumericVector angle){
   SPR *spr_simulation = new SPR();
   setsim(fullstack, spr_simulation);
   
@@ -216,7 +216,7 @@ NumericVector S4_SPRVAL(S4 fullstack, NumericVector angle){
 
 // return the value of delta only at a chosen angle for the layers specified
 // [[Rcpp::export]]
-NumericVector S4_DELTAVAL(S4 fullstack, NumericVector angle){
+NumericVector S4_SPR_DELTA(S4 fullstack, NumericVector angle){
   SPR *spr_simulation = new SPR();
   setsim(fullstack, spr_simulation);
   
@@ -290,7 +290,7 @@ NumericVector S4_SPRD(S4 fullstack){
 
 // return the min angle
 // [[Rcpp::export]]
-NumericVector S4_SPRMIN(S4 fullstack){
+NumericVector S4_SPR_MIN(S4 fullstack){
   NumericVector y(1);  
   double result;
   

@@ -164,7 +164,6 @@ complex<double>  SPR::rss_phia(double phia){
 
 // value of rpp at a fixed value of phia for the stack
 double SPR::Rpp_phia(double phia){
-  //return Rpp(transfer_matrix(phia)); // need to choose data rpp rps rss etc   
   return pow(Rpp(transfer_matrix(phia)),2);
 }
 

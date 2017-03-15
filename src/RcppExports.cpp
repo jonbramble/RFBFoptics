@@ -5,27 +5,27 @@
 
 using namespace Rcpp;
 
-// S4_SPRVAL
-NumericVector S4_SPRVAL(S4 fullstack, NumericVector angle);
-RcppExport SEXP FBFoptics_S4_SPRVAL(SEXP fullstackSEXP, SEXP angleSEXP) {
+// S4_SPR_RPP
+NumericVector S4_SPR_RPP(S4 fullstack, NumericVector angle);
+RcppExport SEXP FBFoptics_S4_SPR_RPP(SEXP fullstackSEXP, SEXP angleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< S4 >::type fullstack(fullstackSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type angle(angleSEXP);
-    rcpp_result_gen = Rcpp::wrap(S4_SPRVAL(fullstack, angle));
+    rcpp_result_gen = Rcpp::wrap(S4_SPR_RPP(fullstack, angle));
     return rcpp_result_gen;
 END_RCPP
 }
-// S4_DELTAVAL
-NumericVector S4_DELTAVAL(S4 fullstack, NumericVector angle);
-RcppExport SEXP FBFoptics_S4_DELTAVAL(SEXP fullstackSEXP, SEXP angleSEXP) {
+// S4_SPR_DELTA
+NumericVector S4_SPR_DELTA(S4 fullstack, NumericVector angle);
+RcppExport SEXP FBFoptics_S4_SPR_DELTA(SEXP fullstackSEXP, SEXP angleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< S4 >::type fullstack(fullstackSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type angle(angleSEXP);
-    rcpp_result_gen = Rcpp::wrap(S4_DELTAVAL(fullstack, angle));
+    rcpp_result_gen = Rcpp::wrap(S4_SPR_DELTA(fullstack, angle));
     return rcpp_result_gen;
 END_RCPP
 }

@@ -31,12 +31,12 @@ void SPRG::setnpts(double _N){N = _N;}
 void SPRG::getdata(boost::numeric::ublas::vector<double>& ret_data){ret_data=data;}
 
 void SPRG::run_rpp(){
-  auto f_rpp = bind(&SPRG::Rpp_phia_w,this,_1);
-  val_array(f_rpp);
-  }
+  auto f_rpp = bind(&SPRG::Rpp_phia_w,this,_1);                 //bind the member function to calc Rpp
+  val_array(f_rpp);                                             //run threaded calcs
+}
 
 void SPRG::run_delta(){
-  auto f_delta = bind(&SPRG::delta_phia_w,this,_1);
+  auto f_delta = bind(&SPRG::delta_phia_w,this,_1);             //bind the member function to calc delta
   val_array(f_delta);
 }
 
@@ -69,9 +69,9 @@ void SPRG::val_segments(function<double(double)> param, int start, int end){
   double phia, result;
   for(k=start;k<end;k++){
     phia = start_angle_rad+k*(range_rad/N); //input angle
-    result = param(phia);
+    result = param(phia);     // calls function param here to calculate desired value
     mu.lock();                // lock here for writing to data
-    data(k) = result;
+     data(k) = result;
     mu.unlock();
   }
 }

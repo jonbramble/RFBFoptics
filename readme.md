@@ -53,7 +53,7 @@ sam <- IsoLayer(d=2e-9,eps=1.45+0i)
 
 # simply add up those layers, starting with the SPR system
 stack <- sprg + au     
-rpp <- curve(stack)
+rpp <- rpp_curve(stack)
 
 #plot results
 plot(rpp[,1],rpp[,2],type="l",xlab="Angle",ylab="rpp") 

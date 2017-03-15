@@ -21,8 +21,8 @@ S4_SPRD <- function(fullstack) {
     .Call('FBFoptics_S4_SPRD', PACKAGE = 'FBFoptics', fullstack)
 }
 
-S4_SPRMIN <- function(fullstack) {
-    .Call('FBFoptics_S4_SPRMIN', PACKAGE = 'FBFoptics', fullstack)
+S4_SPR_MIN <- function(fullstack) {
+    .Call('FBFoptics_S4_SPR_MIN', PACKAGE = 'FBFoptics', fullstack)
 }
 
 S4_SPRI <- function(fullstack) {

@@ -30,9 +30,17 @@ void SPRG::setnpts(double _N){N = _N;}
 
 void SPRG::getdata(boost::numeric::ublas::vector<double>& ret_data){ret_data=data;}
 
-void SPRG::run(){rpp_array();}
+void SPRG::run_rpp(){
+  auto f_rpp = bind(&SPRG::Rpp_phia_w,this,_1);
+  val_array(f_rpp);
+  }
 
-void SPRG::rpp_array(){ 
+void SPRG::run_delta(){
+  auto f_delta = bind(&SPRG::delta_phia_w,this,_1);
+  val_array(f_delta);
+}
+
+void SPRG::val_array(function<double(double)> param){ 
   std::vector<std::thread> threads;  //parallel processing part
   
   int parts = N / cores;
@@ -42,28 +50,39 @@ void SPRG::rpp_array(){
   end_angle_rad = endangle*(s_pi/180);
   start_angle_rad = sangle*(s_pi/180);
   range_rad = end_angle_rad-start_angle_rad;
-
+  
   for (int i=0; i<cores; ++i) // 1 per core:
   {
     start = i*parts;
     end = (i+1)*parts;
     if(i==cores-1)
       end += extra;
-    threads.push_back( std::thread(&SPRG::rpp_segments, this, start, end) );
+    threads.push_back( std::thread(&SPRG::val_segments, this, param, start, end) );
   }
-
-  for (std::thread& t : threads) // new range-based for:
-   t.join(); // runs those threads
+  
+  for (std::thread& t : threads)  // new range-based for:
+    t.join();                     // runs those threads
 }
 
-void SPRG::rpp_segments(int start, int end){
+void SPRG::val_segments(function<double(double)> param, int start, int end){
   int k; 
   double phia, result;
   for(k=start;k<end;k++){
     phia = start_angle_rad+k*(range_rad/N); //input angle
-    result = Rpp_phia(phia);
-    mu.lock(); // lock here for writing to data
-     data(k) = result;
+    result = param(phia);
+    mu.lock();                // lock here for writing to data
+    data(k) = result;
     mu.unlock();
   }
 }
+
+//wrapper function
+double SPRG::Rpp_phia_w(double phia){
+  return Rpp_phia(phia);
+}
+
+double SPRG::delta_phia_w(double phia){
+  return delta_phia(phia);
+}
+
+

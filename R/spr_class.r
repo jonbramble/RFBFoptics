@@ -200,6 +200,8 @@ setReplaceMethod("analyser","SPRI", function(x,value) {x@analyser <- value; vali
 setReplaceMethod("mod_amplitude","SPRI", function(x,value) {x@mod_amplitude <- value; validObject(x); x})
 setReplaceMethod("modulator","SPRI", function(x,value) {x@modulator <- value; validObject(x); x})
 
+setGeneric("rpp_curve", function(object) {standardGeneric("rpp_curve")})
+setGeneric("delta_curve", function(object) {standardGeneric("delta_curve")})
 
 setGeneric("curve", function(object) {standardGeneric("curve")})
 setGeneric("sprmin", function(object){standardGeneric("sprmin")})
@@ -231,17 +233,17 @@ setMethod("curve",signature(object="SPRD"),function(object){
   return(Rpp)
 })
 
-setMethod("curve",signature(object="SPRG"),function(object){
-  Rpp<-S4_SPRG(object)
+setMethod("rpp_curve",signature(object="SPRG"),function(object){
+  Rpp<-S4_SPRG_RPP(object)
   int_angle <- seq(length=object@points,from=object@start_angle,to=object@end_angle)
   dat <- cbind(int_angle,Rpp)
   return(dat)
 })
 
-setMethod("curve",signature(object="SPRG"),function(object){
-  Rpp<-S4_SPRG(object)
+setMethod("delta_curve",signature(object="SPRG"),function(object){
+  Delta<-S4_SPRG_DELTA(object)
   int_angle <- seq(length=object@points,from=object@start_angle,to=object@end_angle)
-  dat <- cbind(int_angle,Rpp)
+  dat <- cbind(int_angle,Delta)
   return(dat)
 })
 

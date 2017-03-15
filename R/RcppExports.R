@@ -9,8 +9,12 @@ S4_DELTAVAL <- function(fullstack, angle) {
     .Call('FBFoptics_S4_DELTAVAL', PACKAGE = 'FBFoptics', fullstack, angle)
 }
 
-S4_SPRG <- function(fullstack) {
-    .Call('FBFoptics_S4_SPRG', PACKAGE = 'FBFoptics', fullstack)
+S4_SPRG_RPP <- function(fullstack) {
+    .Call('FBFoptics_S4_SPRG_RPP', PACKAGE = 'FBFoptics', fullstack)
+}
+
+S4_SPRG_DELTA <- function(fullstack) {
+    .Call('FBFoptics_S4_SPRG_DELTA', PACKAGE = 'FBFoptics', fullstack)
 }
 
 S4_SPRD <- function(fullstack) {

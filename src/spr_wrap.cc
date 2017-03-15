@@ -236,7 +236,7 @@ NumericVector S4_DELTAVAL(S4 fullstack, NumericVector angle){
 
 // return the full set of data
 // [[Rcpp::export]]
-NumericVector S4_SPRG(S4 fullstack){
+NumericVector S4_SPRG_RPP(S4 fullstack){
   int N = fullstack.slot("points"); 
   SPRG *spr_simulation = new SPRG(N);     // create simulation with N points
   setsim(fullstack, spr_simulation);      // set parameters
@@ -244,13 +244,31 @@ NumericVector S4_SPRG(S4 fullstack){
   Rcpp::NumericVector y(N);               // create rcpp numeric vector for result
   boost::numeric::ublas::vector<double> result(N); // allocation boost vector for result
 
-	spr_simulation->run();  //more error handling required probabily
+	spr_simulation->run_rpp();                  //more error handling required probabily
 	spr_simulation->getdata(result);
     
   delete spr_simulation;  
   y = result;
   return y;
 }
+
+// [[Rcpp::export]]
+NumericVector S4_SPRG_DELTA(S4 fullstack){
+  int N = fullstack.slot("points"); 
+  SPRG *spr_simulation = new SPRG(N);     // create simulation with N points
+  setsim(fullstack, spr_simulation);      // set parameters
+  
+  Rcpp::NumericVector y(N);               // create rcpp numeric vector for result
+  boost::numeric::ublas::vector<double> result(N); // allocation boost vector for result
+  
+  spr_simulation->run_delta();                  //more error handling required probabily
+  spr_simulation->getdata(result);
+  
+  delete spr_simulation;  
+  y = result;
+  return y;
+}
+
 
 // return the full set of data for thickness change at fixed angle
 // [[Rcpp::export]]

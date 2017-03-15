@@ -29,14 +29,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// S4_SPRG
-NumericVector S4_SPRG(S4 fullstack);
-RcppExport SEXP FBFoptics_S4_SPRG(SEXP fullstackSEXP) {
+// S4_SPRG_RPP
+NumericVector S4_SPRG_RPP(S4 fullstack);
+RcppExport SEXP FBFoptics_S4_SPRG_RPP(SEXP fullstackSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< S4 >::type fullstack(fullstackSEXP);
-    rcpp_result_gen = Rcpp::wrap(S4_SPRG(fullstack));
+    rcpp_result_gen = Rcpp::wrap(S4_SPRG_RPP(fullstack));
+    return rcpp_result_gen;
+END_RCPP
+}
+// S4_SPRG_DELTA
+NumericVector S4_SPRG_DELTA(S4 fullstack);
+RcppExport SEXP FBFoptics_S4_SPRG_DELTA(SEXP fullstackSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< S4 >::type fullstack(fullstackSEXP);
+    rcpp_result_gen = Rcpp::wrap(S4_SPRG_DELTA(fullstack));
     return rcpp_result_gen;
 END_RCPP
 }

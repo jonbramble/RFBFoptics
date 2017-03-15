@@ -22,6 +22,9 @@
 #include "spr.h"
 #include <thread>
 #include <mutex>
+#include <functional>
+ 
+using namespace std::placeholders;
 
 class SPRG : public SPR {
   
@@ -33,7 +36,8 @@ class SPRG : public SPR {
   std::mutex mu;
   double sangle, endangle, end_angle_rad, start_angle_rad, range_rad; 
   
-  void run();
+  void run_rpp();
+  void run_delta();
   void getdata(boost::numeric::ublas::vector<double>& ret_data);
   
   boost::numeric::ublas::vector<double> data;
@@ -44,8 +48,12 @@ class SPRG : public SPR {
   private:
 
   void setnpts(double _N);
-  void rpp_array();
-  void rpp_segments(int start, int end);
+  
+  void val_array(function<double(double)>);
+  void val_segments(function<double(double)>, int, int);
+  
+  double Rpp_phia_w(double);
+  double delta_phia_w(double);
   
 };
 

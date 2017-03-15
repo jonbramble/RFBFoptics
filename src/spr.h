@@ -60,7 +60,6 @@ class SPR: public Fbfoptics {
       
       double Rpp_phia(double phia);
       double Rss_phia(double phia);
-      
       double delta_phia(double phia);
       
       //TODO: Add methods to calculate reflectivity parameters for an arbitary chain of polarisers

@@ -238,6 +238,15 @@ double Fbfoptics::Rpp(const MatrixZ& M)
   return abs(y/z);
 }
 
+double Fbfoptics::delta(const MatrixZ& M){
+  
+  complex<double> y,z;
+  y = rpp(M);
+  z = rss(M);
+  
+  return arg(y/z);
+}
+
 MatrixZ Fbfoptics::jones(const MatrixZ& M)
 {
   MatrixZ J(2,2);

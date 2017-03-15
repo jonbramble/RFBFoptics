@@ -37,8 +37,6 @@
 #include "expm.h"
 #include "expm_eigen.h"  // not yet implemented
 
-
-//using namespace boost::numeric::ublas;
 using namespace std;
 
 typedef boost::numeric::ublas::matrix<complex<double> > MatrixZ;  // following the scheme of blas
@@ -83,6 +81,8 @@ protected:
   complex<double> rss(const MatrixZ&);
   
   MatrixZ jones(const MatrixZ&);
+  
+  double delta(const MatrixZ&);
   
   double Rpp(const MatrixZ& M);
   

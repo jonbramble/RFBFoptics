@@ -45,12 +45,12 @@ class SPR: public Fbfoptics {
 		  void sprval();
 		  void getmin(double& min);
 		  void getval(double& val);
+		  void getdelta(double& delta);
 		
 		protected:
 		
 		  double s_pi, angle;
 		  
-      
       double rpp_phia(double phia, double d);  // special overload for thickness fitting
       
       complex<double> rpp_phia(double phia);
@@ -61,6 +61,8 @@ class SPR: public Fbfoptics {
       double Rpp_phia(double phia);
       double Rss_phia(double phia);
       
+      double delta_phia(double phia);
+      
       //TODO: Add methods to calculate reflectivity parameters for an arbitary chain of polarisers
       // possibly extract out into new class definition
 		
@@ -68,7 +70,7 @@ class SPR: public Fbfoptics {
 		
 		  int size;
 		
-		  double na, nf, lambda, min, val;
+		  double na, nf, lambda, min, val, delta_val;
 		  double rpp_p1(double phia);
 		  double rpp_p2(double phia);
       MatrixZ transfer_matrix(double phia);

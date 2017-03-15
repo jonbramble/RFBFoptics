@@ -204,10 +204,16 @@ setReplaceMethod("modulator","SPRI", function(x,value) {x@modulator <- value; va
 setGeneric("curve", function(object) {standardGeneric("curve")})
 setGeneric("sprmin", function(object){standardGeneric("sprmin")})
 setGeneric("rppval", function(e1,e2) {standardGeneric("rppval")})
+setGeneric("delta", function(stack,angle) {standardGeneric("delta")})
 
 setMethod("rppval",signature(e1="SPR",e2="numeric"),function(e1,e2){
   Rpp<-S4_SPRVAL(e1,e2)
   return(Rpp)
+})
+
+setMethod("delta",signature(stack="SPR",angle="numeric"),function(stack,angle){
+  Delta<-S4_DELTAVAL(stack,angle)
+  return(Delta)
 })
 
 setMethod("sprmin",signature(object="SPR"),function(object){

@@ -32,11 +32,13 @@ void SPR::setlayers(std::vector<IsoLayer> _layers){ vlayers = _layers; } // must
 
 void SPR::getval(double& ret_val){ret_val=val;}
 void SPR::getmin(double& ret_min){ret_min=min;}
+void SPR::getdelta(double& ret_delta){ret_delta=delta_val;}
 
 void SPR::sprval(){
   double phia;
   phia = angle*(s_pi/180);
   val = Rpp_phia(phia);
+  delta_val = delta_phia(phia);
 }
 
 //this should find the spr minimum in a small number of steps
@@ -166,6 +168,10 @@ double SPR::Rpp_phia(double phia){
   return pow(Rpp(transfer_matrix(phia)),2);
 }
 
+// value of phase shift delta at a fixed value of phia for the stack
+double SPR::delta_phia(double phia){
+  return delta(transfer_matrix(phia));
+}
 // value of rpp at a fixed value of phia for the stack with a value for a fitable layer
 // could be improved by precalcuating the variables that are fixed with angle  
 // could extract the main part out again for other calcs

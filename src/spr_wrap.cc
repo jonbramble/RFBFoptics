@@ -203,14 +203,34 @@ NumericVector S4_SPRVAL(S4 fullstack, NumericVector angle){
   double d_angle = (double)angle[0];
   spr_simulation->setangle(d_angle); 
   
-  Rcpp::NumericVector y(1);             // create rcpp numeric vector for result
+  Rcpp::NumericVector y(1);           // create rcpp numeric vector for result
   double result;                        
   
-  spr_simulation->sprval();                //more error handling required probabily
-	spr_simulation->getval(result);      // this could be more efficient with less unness code execution
+  spr_simulation->sprval();           //more error handling required probabily
+	spr_simulation->getval(result);     // this could be more efficient with less unness code execution
   
   delete spr_simulation;  
   y = result;
+  return y;
+}
+
+// return the value of delta only at a chosen angle for the layers specified
+// [[Rcpp::export]]
+NumericVector S4_DELTAVAL(S4 fullstack, NumericVector angle){
+  SPR *spr_simulation = new SPR();
+  setsim(fullstack, spr_simulation);
+  
+  double d_angle = (double)angle[0];
+  spr_simulation->setangle(d_angle); 
+  
+  Rcpp::NumericVector y(1);           // create rcpp numeric vector for result
+  double result;                        
+  
+  spr_simulation->sprval();           //more error handling required probabily
+  spr_simulation->getdelta(result);     // this could be more efficient with less unness code execution
+  
+  delete spr_simulation;  
+  y = result*180/PI;
   return y;
 }
 
